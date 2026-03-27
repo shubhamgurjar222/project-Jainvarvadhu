@@ -3,7 +3,7 @@ interface ErrorMsgProps {
     errors: Record<string, string>;
 }
 
-const ErrorMsg: React.FC<ErrorMsgProps> = ({ field, errors }) => {
+export default function ErrorMsg({ field, errors }: ErrorMsgProps) {
     if (!errors[field]) return null;
     return (
         <div className="d-flex align-items-center gap-1 text-danger small mt-1 bg-danger-subtle border border-danger-subtle rounded px-2 py-1">
@@ -12,4 +12,4 @@ const ErrorMsg: React.FC<ErrorMsgProps> = ({ field, errors }) => {
     )
 }
 
-export default ErrorMsg;
+;

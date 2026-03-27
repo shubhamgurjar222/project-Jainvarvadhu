@@ -1,4 +1,4 @@
-const Home: React.FC = () => {
+export default function Home()  {
     return (
         <>
             <section>
@@ -746,4 +746,3 @@ const Home: React.FC = () => {
     )
 }
 
-export default Home;

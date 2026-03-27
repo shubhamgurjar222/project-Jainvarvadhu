@@ -1,7 +1,7 @@
 import Link from "next/link"
 // import AdvisorCard from "@/dashboard/AdvisorCard"
 
-const Header: React.FC = () => {
+export default function Header() {
     return (
         <>
             <header>
@@ -89,5 +89,3 @@ const Header: React.FC = () => {
         </>
     )
 }
-
-export default Header

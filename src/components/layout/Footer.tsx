@@ -1,6 +1,6 @@
 import React from "react";
 
-const Footer: React.FC = () => {
+export default function Footer() {
   return (
     <>
       <section className="wed-hom-footer">
@@ -105,4 +105,4 @@ const Footer: React.FC = () => {
   );
 };
 
-export default Footer;
+

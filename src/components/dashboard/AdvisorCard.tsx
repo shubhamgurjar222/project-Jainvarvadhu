@@ -1,4 +1,4 @@
-const AdvisorCard: React.FC = () => {
+export default function AdvisorCard() {
     return (
         <>
             <div className="al">
@@ -14,4 +14,3 @@ const AdvisorCard: React.FC = () => {
     )
 }
 
-export default AdvisorCard;

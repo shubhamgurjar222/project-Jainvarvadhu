@@ -1,5 +1,4 @@
 
-
 export async function fetchResources(url: string, body?: FormData, token: string | null = null ): Promise<unknown> {
   let fullUrl = process.env.NEXT_PUBLIC_API_URL + url;
   const res = await fetch(fullUrl, {
