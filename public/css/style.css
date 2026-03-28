@@ -7597,9 +7597,9 @@ span.mail::before {
     text-align: right;
 }
 
-.animate {
+/* .animate {
     opacity: 0;
-}
+} */
 
 .animate.anistart {
     opacity: 1;

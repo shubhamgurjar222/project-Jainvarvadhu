@@ -25,15 +25,15 @@ export default function RootLayout({ children }: RootLayoutProps) {
         
         {!hideLayout && <Footer />}
 
-        <Script src="/js/jquery.min.js" strategy="beforeInteractive" />
-        <Script id="jquery-global" strategy="beforeInteractive">{`window.$ = window.jQuery = window.jQuery || window.$;`}</Script>
-        <Script src='/js/slick.js' strategy='afterInteractive'></Script>
-        <Script src="/js/popper.min.js" strategy="afterInteractive" />
-        <Script src="/js/bootstrap.min.js" strategy="afterInteractive" />
+        {/* <Script src="/js/jquery.min.js" strategy="afterInteractive" /> */}
+        <Script src='/js/slick.js' strategy='afterInteractive' />
         <Script src="/js/custom.js" strategy="afterInteractive" />
-        <Script src="/js/mail.js" strategy="afterInteractive" />
-        <Script src="/js/gallery.js" strategy="afterInteractive" />
-        <Script src="/js/select-opt.js" strategy="afterInteractive" />
+        <Script id="jquery-global" strategy="beforeInteractive">{`window.$ = window.jQuery = window.jQuery || window.$;`}</Script>
+        <Script src="/js/popper.min.js" strategy="beforeInteractive" />
+        <Script src="/js/bootstrap.min.js" strategy="beforeInteractive" />
+        <Script src="/js/mail.js" strategy="beforeInteractive" />
+        <Script src="/js/gallery.js" strategy="beforeInteractive" />
+        <Script src="/js/select-opt.js" strategy="beforeInteractive" />
       </body>
     </html>
   );

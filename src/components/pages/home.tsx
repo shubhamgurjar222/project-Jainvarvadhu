@@ -1,4 +1,6 @@
-export default function Home()  {
+
+export default async function Home()  {
+    
     return (
         <>
             <section>
@@ -152,38 +154,21 @@ export default function Home()  {
                         <div className="slid-inn cus-revi">
                         <ul className="slider3">
                             <li>
-                            <div className="cus-revi-box">
-                                <div className="revi-im">
-                                <img alt="" loading="lazy" src="images/user/1.jpg" />
-                                <i className="cir-com cir-1"> </i>
-                                <i className="cir-com cir-2"> </i>
-                                <i className="cir-com cir-3"> </i>
+                                <div className="cus-revi-box">
+                                    <div className="revi-im">
+                                    <img alt="" loading="lazy" src="images/user/2.jpg" />
+                                    <i className="cir-com cir-1"> </i>
+                                    <i className="cir-com cir-2"> </i>
+                                    <i className="cir-com cir-3"> </i>
+                                    </div>
+                                    <p>
+                                    Lorem Ipsum is simply dummy text of the printing and
+                                    typesetting industry. Lorem Ipsum has been the industry&apos;s
+                                    standard dummy text ever since the 1500s,
+                                    </p>
+                                    <h5>Jack danial</h5>
+                                    <span> New york </span>
                                 </div>
-                                <p>
-                                Lorem Ipsum is simply dummy text of the printing and
-                                typesetting industry. Lorem Ipsum has been the industry&apos;s
-                                standard dummy text ever since the 1500s,
-                                </p>
-                                <h5>Jack danial</h5>
-                                <span> New york </span>
-                            </div>
-                            </li>
-                            <li>
-                            <div className="cus-revi-box">
-                                <div className="revi-im">
-                                <img alt="" loading="lazy" src="images/user/2.jpg" />
-                                <i className="cir-com cir-1"> </i>
-                                <i className="cir-com cir-2"> </i>
-                                <i className="cir-com cir-3"> </i>
-                                </div>
-                                <p>
-                                Lorem Ipsum is simply dummy text of the printing and
-                                typesetting industry. Lorem Ipsum has been the industry&apos;s
-                                standard dummy text ever since the 1500s,
-                                </p>
-                                <h5>Jack danial</h5>
-                                <span> New york </span>
-                            </div>
                             </li>
                             <li>
                             <div className="cus-revi-box">
