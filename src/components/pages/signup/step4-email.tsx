@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, ChangeEvent, FormEvent } from "react";
+import { useState, } from "react";
 import ErrorMsg from "@/components/error/error-msg";
 import { Eye, EyeOff } from "lucide-react";
 
@@ -30,9 +30,7 @@ export default function Step4Email({ onSubmit }: Props) {
   const [errors, setErrors] = useState<Errors>({});
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
-  const isPasswordVisible = () => {
-    return showPassword;
-  };
+  const isPasswordVisible = () => { return showPassword; };
 
   const validate = (): Errors => {
     const newErrors: Errors = {};
@@ -44,7 +42,7 @@ export default function Step4Email({ onSubmit }: Props) {
     return newErrors;
   };
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
 
     if (id === "email") {
@@ -52,10 +50,12 @@ export default function Step4Email({ onSubmit }: Props) {
       setDetails({ ...details, email: val });
       sessionStorage.setItem("email", val);
       if (errors.email) setErrors((prev) => ({ ...prev, email: "" }));
+
     } else if (id === "password") {
       setDetails({ ...details, password: value });
       sessionStorage.setItem("password", value);
       if (errors.password) setErrors((prev) => ({ ...prev, password: "" }));
+
     } else if (id === "phoneNo") {
       const val = value.trim();
       setDetails({ ...details, phoneNo: val });
@@ -64,9 +64,8 @@ export default function Step4Email({ onSubmit }: Props) {
     }
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     const newErrors = validate();
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);

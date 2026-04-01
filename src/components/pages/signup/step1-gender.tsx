@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 type Step1GenderProps = {
   onSubmit: (gender: string) => void;
@@ -7,23 +7,26 @@ type Step1GenderProps = {
 
 export default function Step1Gender({ onSubmit }: Step1GenderProps) {
   
-  const [gender, setGender] = useState<string>(() => {
-    if (typeof window !== "undefined") {
-      return sessionStorage.getItem("gender") || "";
-    }
-    return "";
-  });
+  const [gender, setGender] = useState<string>("");
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (!gender) return;
-    onSubmit(gender);
-  };
+  useEffect(() => {
+  const savedGender = sessionStorage.getItem("gender");
+  if (savedGender) {
+    setGender(savedGender);
+  }
+}, []);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setGender(e.target.value);
-    sessionStorage.setItem("gender", e.target.value);
-  };
+
+const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  setGender(e.target.value);
+  sessionStorage.setItem("gender", e.target.value);
+};
+
+const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
+  e.preventDefault();
+  if (!gender) return;
+  onSubmit(gender);
+};
 
   return (
     <div className="profile-selection-container">

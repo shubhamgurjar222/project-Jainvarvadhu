@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, ChangeEvent, FormEvent } from "react";
+import { useState } from "react";
 import { Country } from "country-state-city";
 import ErrorMsg from "@/components/error/error-msg";
 
@@ -27,19 +27,19 @@ export default function Step3Religion({ onSubmit }: Props) {
   const [errors, setErrors] = useState<Errors>({});
   const countries = Country.getAllCountries();
 
-  const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { id, value } = e.target;
 
     if (id === "community") {
       setDetails({ ...details, community: value });
       sessionStorage.setItem(id, value);
       if (errors.community) setErrors((prev) => ({ ...prev, community: "" }));
-    }
 
-    if (id === "country") {
+    } if (id === "country") {
       setDetails({ ...details, country: value });
       sessionStorage.setItem(id, value);
       if (errors.country) setErrors((prev) => ({ ...prev, country: "" }));
+
     }
   };
 
@@ -50,7 +50,7 @@ export default function Step3Religion({ onSubmit }: Props) {
     return newErrors;
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
     const newErrors = validate();
 
@@ -80,9 +80,7 @@ export default function Step3Religion({ onSubmit }: Props) {
           <select className="form-control1" name="country" id="country" onChange={handleChange} value={details.country}>
             <option value="">Select Country</option>
             {countries.map((c, index) => (
-              <option key={index} value={c.name}>
-                {c.name}
-              </option>
+              <option key={index} value={c.name}>{c.name}</option>
             ))}
           </select>
           <ErrorMsg field="country" errors={errors} />

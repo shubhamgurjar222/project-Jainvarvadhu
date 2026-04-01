@@ -10,7 +10,6 @@ import Step2 from "@/components/pages/signup/step2-basic";
 import Step3 from "@/components/pages/signup/step3-religion";
 import Step4 from "@/components/pages/signup/step4-email";
 
-// ✅ Define form data type (simple & optional fields)
 type FormData = {
   gender?: string;
   firstName?: string;
@@ -29,39 +28,27 @@ export default function Signup() {
 
   const handleStep1Submit = (gender: string) => {
     const updated = { ...formData, gender };
-    sessionStorage.setItem("gender", gender);
     setFormData(updated);
     setCurrentStep(2);
   };
 
-  const handleStep2Submit = (details: {
-    firstName: string;
-    lastName: string;
-    dob: string;
-  }) => {
-    const updated = { ...formData, ...details };
-    setFormData(updated);
+  const handleStep2Submit = (details: { firstName: string; lastName: string; dob: string; }) => {
+    setFormData(prev => ({ ...prev, ...details }));
     setCurrentStep(3);
   };
 
-  const handleStep3Submit = (details: {
-    community: string;
-    country: string;
-  }) => {
+  const handleStep3Submit = (details: { community: string; country: string; }) => {
     const updated = { ...formData, ...details };
     setFormData(updated);
     setCurrentStep(4);
   };
 
-  const handleStep4Submit = (details: {
-    email: string;
-    password: string;
-    phoneNo: string;
-  }) => {
+  const handleStep4Submit = (details: { email: string; password: string; phoneNo: string;}) => {
+    console.log(details);
     const updated = { ...formData, ...details };
     setFormData(updated);
-    console.log(updated);
     setCurrentStep(5);
+
   };
 
   return (
@@ -72,9 +59,7 @@ export default function Signup() {
             <div className="inn">
               <div className="lhs">
                 <div className="tit">
-                  <h2>
-                    Now <b>Find your life partner</b> Easy and fast.
-                  </h2>
+                  <h2>Now <b>Find your life partner</b> Easy and fast.</h2>
                 </div>
                 <div className="im">
                   <img src="images/login-couple.png" alt="" />
@@ -87,31 +72,26 @@ export default function Signup() {
                   <div className="form-tit">
                     <h4>Start for free</h4>
                     <h1>Sign up to Jainvarvadhu</h1>
-                    <p>
-                      Already a member? <Link href="/login">Login</Link>
-                    </p>
+                    <p>Already a member? <Link href="/login">Login</Link></p>
                   </div>
 
                   {currentStep > 1 && (
-                    <button
-                      className="mb-3 bg-transparent"
-                      onClick={() => setCurrentStep(currentStep - 1)}
-                    >
+                    <button className="mb-3 bg-transparent" onClick={() => setCurrentStep(currentStep - 1)}>
                       <ArrowLeft />
                     </button>
                   )}
 
                   {currentStep === 1 && (
-                    <Step1 onSubmit={handleStep1Submit} />
+                    <Step1 key={currentStep} onSubmit={handleStep1Submit} />
                   )}
                   {currentStep === 2 && (
-                    <Step2 onSubmit={handleStep2Submit} />
+                    <Step2 key={currentStep} onSubmit={handleStep2Submit} />
                   )}
                   {currentStep === 3 && (
-                    <Step3 onSubmit={handleStep3Submit} />
+                    <Step3 key={currentStep} onSubmit={handleStep3Submit} />
                   )}
                   {currentStep === 4 && (
-                    <Step4 onSubmit={handleStep4Submit} />
+                    <Step4 key={currentStep} onSubmit={handleStep4Submit} />
                   )}
                   {currentStep === 5 && redirect("/signup/main")}
                 </div>

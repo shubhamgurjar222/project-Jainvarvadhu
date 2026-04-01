@@ -28,11 +28,15 @@ type Step2BasicProps = {
 
 export default function Step2Basic({ onSubmit }: Step2BasicProps) {
 
+  const date = sessionStorage.getItem("date") || "";
+  const month = sessionStorage.getItem("month") || "";
+  const year = sessionStorage.getItem("year") || "";
+
   const [details, setDetails] = useState<Details>(() => ({
     firstName: sessionStorage.getItem("firstName") || "",
     lastName: sessionStorage.getItem("lastName") || "",
-    dob: "",
-  }));
+    dob: date && month && year ? `${year}-${month}-${date}` : ""
+    }));
 
   const [dobParts, setDobParts] = useState<DobParts>(() => ({
     date: sessionStorage.getItem("date") || "",
@@ -73,23 +77,17 @@ export default function Step2Basic({ onSubmit }: Step2BasicProps) {
     const { id, value } = e.target;
 
     if (id === "firstName") {
-      const val = value.trim();
-      setDetails((prev) => ({ ...prev, firstName: val }));
-      sessionStorage.setItem(id, val);
+      setDetails((prev) => ({ ...prev, firstName: value.trim() }));
+      sessionStorage.setItem(id, value.trim());
 
-      if (errors.firstName) {
-        setErrors((prev) => ({ ...prev, firstName: "" }));
-      }
+      if (errors.firstName) setErrors((prev) => ({ ...prev, firstName: "" }));
     }
 
     if (id === "lastName") {
-      const val = value.trim();
-      setDetails((prev) => ({ ...prev, lastName: val }));
-      sessionStorage.setItem(id, val);
+      setDetails((prev) => ({ ...prev, lastName: value.trim() }));
+      sessionStorage.setItem(id, value.trim());
 
-      if (errors.lastName) {
-        setErrors((prev) => ({ ...prev, lastName: "" }));
-      }
+      if (errors.lastName) setErrors((prev) => ({ ...prev, lastName: "" }));
     }
 
     if (id === "month" || id === "date" || id === "year") {
@@ -99,8 +97,8 @@ export default function Step2Basic({ onSubmit }: Step2BasicProps) {
       if (id === "year" && Number(value) > new Date().getFullYear()) return;
 
       const updatedDob = { ...dobParts, [id]: value };
+      sessionStorage.setItem(id, value);
       setDobParts(updatedDob);
-
       const { month, date, year } = updatedDob;
 
       if (month && date && year) {
@@ -108,10 +106,7 @@ export default function Step2Basic({ onSubmit }: Step2BasicProps) {
         sessionStorage.setItem("date", date);
         sessionStorage.setItem("year", year);
 
-        setDetails((prev) => ({
-          ...prev,
-          dob: `${year}-${month}-${date}`,
-        }));
+        setDetails((prev) => ({...prev, dob: `${year}-${month}-${date}`}));
       }
 
       if (errors.dob) {
@@ -120,7 +115,7 @@ export default function Step2Basic({ onSubmit }: Step2BasicProps) {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const newErrors = validate();
