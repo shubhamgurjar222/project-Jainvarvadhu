@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { ArrowLeft } from "lucide-react";
-
+import { fetchResources } from "@/lib/fetchResources";
 import Step1Main from "@/components/pages/signup/main-details/step1-country-family";
 import Step2Main from "@/components/pages/signup/main-details/step2-married-habbits";
 import Step3Main from "@/components/pages/signup/main-details/step3-education";
@@ -52,39 +52,29 @@ export default function Page() {
   };
 
   const handleStep6Main = (details: any) => {
-    const [hobbies1, hobbies2, hobbies3, hobbies4, hobbies5] =
-      details.hobbies;
-
+    const [hobbies1, hobbies2, hobbies3, hobbies4, hobbies5] = details.hobbies;
     setFormData((prev) => ({...prev, hobbies1, hobbies2, hobbies3, hobbies4, hobbies5, }));
-
     setCurrentStepMain(7);
   };
 
   const handleStep7Main = (details: any) => {
-    const {
-      fatherDetails,
-      motherDetails,
-      sisters,
-      brothers,
-      familyFinancialStatus,
-    } = details;
+    const { fatherDetails, motherDetails, sisters, brothers, familyFinancialStatus, } = details;
 
     setFormData((prev) => ({
-      ...prev,
-      fatherDetails,
-      motherDetails,
-      sisters,
-      brothers,
-      familyFinancialStatus,
-    }));
-
-    setPhotoStep(1);
+      ...prev, fatherDetails, motherDetails, sisters, brothers, familyFinancialStatus, }));
+      setPhotoStep(1);
   };
 
-  const handleStepFinal = (details: any) => {
-    const { image } = details;
-    console.log("photo algo not completed");
-    console.log(formData);
+  const handleStepFinal =  async (details: any) => {
+    try {
+      const response: any = await fetchResources("/upload", details);
+      if (response && typeof response === "object" && "data" in response) {
+        console.log("Response from server:", response);
+      }
+
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (

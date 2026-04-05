@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, ChangeEvent, FormEvent } from "react";
+import { useState, ChangeEvent, SyntheticEvent } from "react";
 import ErrorMsg from "@/components/error/error-msg";
 import { heightList } from "@/data/height";
 
@@ -78,7 +78,7 @@ export default function Step2Main({ onSubmit }: Props) {
     }
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
     const newErrors = validate();
     if (Object.keys(newErrors).length > 0) {

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, ChangeEvent, FormEvent } from "react";
+import { useState, ChangeEvent, SyntheticEvent } from "react";
 import ErrorMsg from "@/components/error/error-msg";
 import { hobbiesData } from "@/data/hobbies";
 
@@ -41,7 +41,7 @@ export default function Step5Main({ onSubmit }: Props) {
     });
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const newErrors: Errors = {};

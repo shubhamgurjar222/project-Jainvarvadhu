@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, ChangeEvent, FormEvent } from "react";
+import { useState, useRef, ChangeEvent, SyntheticEvent } from "react";
 import ErrorMsg from "@/components/error/error-msg";
 import { educationLevel } from "@/data/educationLevel";
 import { fetchResources } from "@/lib/fetchResources";
@@ -94,7 +94,7 @@ export default function Step3Main({ onSubmit }: Props) {
     }
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const newErrors = validate();

@@ -1,9 +1,12 @@
 "use client";
 
-import { useState, ChangeEvent, FormEvent } from "react";
+import { useState, ChangeEvent, SyntheticEvent, useEffect } from "react";
 import { City } from "country-state-city";
 import Getcountry from "@/lib/getCountry";
 import ErrorMsg from "@/components/error/error-msg";
+import { redirect } from "next/navigation";
+import { useAlert } from "@/context/AlertContext";
+
 
 type Details = {
   country: string;
@@ -23,6 +26,7 @@ type Props = {
 };
 
 export default function Step1Main({ onSubmit }: Props) {
+  const { showAlert } = useAlert();
   const [details, setDetails] = useState<Details>({
     country: sessionStorage.getItem("country") || "",
     state: sessionStorage.getItem("state") || "",
@@ -33,6 +37,13 @@ export default function Step1Main({ onSubmit }: Props) {
   const countryStates = Getcountry(details.country);
 
   const states: string[] = countryStates.map((s: any) => s.name);
+
+  useEffect(() => {
+    if (states.length === 0) {
+      showAlert("Error", "Error fetching states for the selected country. Please try again.", "info", true);
+      redirect("/signup");
+    }
+  }, [states.length]);
 
   const selectedState = countryStates.find((s: any) => s.name === details.state);
 
@@ -75,7 +86,7 @@ export default function Step1Main({ onSubmit }: Props) {
     }
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const newErrors = validate();

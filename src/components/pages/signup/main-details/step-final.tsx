@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect, ChangeEvent, DragEvent, FormEvent } from "react";
+import { useState, useRef, useEffect, ChangeEvent, DragEvent, SyntheticEvent } from "react";
 import { Check, X, Upload, Image } from "lucide-react";
 
 type Errors = {
@@ -19,7 +19,7 @@ export default function PhotoUpload({ onSubmit }: Props) {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [errors, setErrors] = useState<Errors>({});
 
-  useEffect(() => {
+  useEffect(() => { 
     return () => {
       if (preview) URL.revokeObjectURL(preview);
     };
@@ -92,7 +92,7 @@ export default function PhotoUpload({ onSubmit }: Props) {
     setPreview(null);
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const newErrors = validate();
@@ -104,9 +104,9 @@ export default function PhotoUpload({ onSubmit }: Props) {
     if (!file) return;
 
     const formData = new FormData();
-    formData.append("image", file);
-
+    formData.append("name", file);
     onSubmit(formData);
+
   };
 
   return (
@@ -125,7 +125,11 @@ export default function PhotoUpload({ onSubmit }: Props) {
                   ? "border-success bg-success bg-opacity-10"
                   : "border-dashed"
               }`}
-              style={{borderStyle: dragOver || preview ? "solid" : "dashed", borderWidth: "2px", cursor: "pointer", transition: "all .2s ease"}}
+              style={{ borderStyle: dragOver || preview ? "solid" : "dashed",
+                borderWidth: "2px",
+                cursor: "pointer",
+                transition: "all .2s ease"
+              }}
               onClick={() => {
                 if (inputRef.current) {
                   inputRef.current.value = "";
@@ -155,15 +159,12 @@ export default function PhotoUpload({ onSubmit }: Props) {
                         ? "bg-primary text-white"
                         : "bg-primary bg-opacity-10 text-primary"
                     }`}
-                    style={{ width: 48, height: 48 }}
-                  >
+                    style={{ width: 48, height: 48 }}>
                     {dragOver ? <Upload size={20} /> : <Image size={20} />}
                   </div>
 
                   <p className="mb-1 fw-medium small">
-                    {dragOver
-                      ? "Drop your photo here"
-                      : "Click to browse or drag & drop"}
+                    { dragOver ? "Drop your photo here" : "Click to browse or drag & drop" }
                   </p>
 
                   <p className="mb-0 text-secondary" style={{ fontSize: ".75rem" }}>JPG, PNG, WEBP · Max 5 MB </p>
@@ -171,7 +172,7 @@ export default function PhotoUpload({ onSubmit }: Props) {
               )}
             </div>
 
-            {errors.image && ( <p className="text-danger small mb-0 text-start"><X size={15} className="me-1" />{errors.image}</p>)}
+            { errors.image && ( <p className="text-danger small mb-0 text-start"><X size={15} className="me-1" />{errors.image}</p>)}
           </div>
 
           <button className="btn btn-primary mt-3 px-4" type="submit"><Upload size={15} className="me-2" />Upload Photo</button>

@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import cloudinary from '@/utils/cloudinary';
 import { UploadApiResponse } from 'cloudinary';
+import { successResponse, errorResponse } from '@/utils/apiResponse';
 
 
 export async function POST(req: Request) {
@@ -12,22 +13,18 @@ export async function POST(req: Request) {
         const formData = await req.formData();
         const file = formData.get('file') as File;
         const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
-        
-        if (!file) {
-            return NextResponse.json({ error: 'No file uploaded' }, { status: 400 });
-        }
 
         if (!file || !(file instanceof File)) {
-            return NextResponse.json({ error: 'Invalid file' }, { status: 400 });
+            return errorResponse(400, 'File upload failed');
         }
 
         if (!allowedTypes.includes(file.type)) {
-        return NextResponse.json({ error: 'Invalid file type' }, { status: 400 });
+            return errorResponse(400, 'Invalid file type');
         }
 
-        const MAX_SIZE = 5 * 1024 * 1024; // 5MB
+        const MAX_SIZE = 5 * 1024 * 1024;
         if (file.size > MAX_SIZE) {
-            return NextResponse.json({ error: 'File too large' }, { status: 400 });
+            return errorResponse(400, 'File too large');
         }
         
         const bytes = await file.arrayBuffer();
@@ -39,16 +36,15 @@ export async function POST(req: Request) {
                 public_id: `${username}-${userId}`,
             },
             (error, result) => {
-            if (error) reject(error);
-            if (!result) return reject(new Error('Upload failed'));
-            resolve(result);
+                if (error) reject(error);
+                if (!result) return reject(new Error('Upload failed'));
+                resolve(result);
             }
         ).end(buffer);
         });
 
-        return NextResponse.json(uploadResponse);
+        return successResponse(200, uploadResponse, 'File uploaded successfully');
     } catch (error) {
-        console.error('Upload error:', error);
-        return NextResponse.json({ error: 'Upload failed' }, { status: 500 });
+        return errorResponse(500, 'File upload failed', error);
     }
 }
