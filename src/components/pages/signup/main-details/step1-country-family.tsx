@@ -40,7 +40,7 @@ export default function Step1Main({ onSubmit }: Props) {
 
   useEffect(() => {
     if (states.length === 0) {
-      showAlert("States not found", "Error fetching states for the selected country. Please try again.", "error", true);
+      showAlert("States not found", "Error fetching states for the selected country.", "info", true);
       redirect("/signup");
     }
   }, [states.length]);

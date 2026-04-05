@@ -2,6 +2,7 @@
 
 import { useState, ChangeEvent, SyntheticEvent } from "react";
 import ErrorMsg from "@/components/error/error-msg";
+import { familyStatusOptions } from "@/data/familystatus";
 
 type Details = {
   fatherDetails: string;
@@ -85,11 +86,11 @@ export default function Step8FamilyDetails({ onSubmit }: Props) {
           <label htmlFor="motherDetails">Mother Details</label>
           <select className="form-select" id="motherDetails" onChange={handleChange} value={details.motherDetails}>
             <option value="">Select Mother Details</option>
-            <option value="Employeed">Employeed</option>
-            <option value="Businesswoman">Businesswoman</option>
-            <option value="Retired">Retired</option>
-            <option value="Homemaker">Homemaker</option>
-            <option value="Passed Away">Passed Away</option>
+            {familyStatusOptions.map((income: any) => (
+              <option key={income.value} value={income.value}>
+                {income.label}
+              </option>
+            ))}
           </select>
           <ErrorMsg field="motherDetails" errors={errors} />
         </div>
@@ -98,11 +99,11 @@ export default function Step8FamilyDetails({ onSubmit }: Props) {
           <label htmlFor="fatherDetails">Father Details</label>
           <select className="form-select" id="fatherDetails" onChange={handleChange} value={details.fatherDetails}>
             <option value="">Select Father Details</option>
-            <option value="Employeed">Employeed</option>
-            <option value="Businessman">Businessman</option>
-            <option value="Retired">Retired</option>
-            <option value="Homemaker">Homemaker</option>
-            <option value="Passed Away">Passed Away</option>
+            {familyStatusOptions.map((income: any) => (
+              <option key={income.value} value={income.value}>
+                {income.label}
+              </option>
+            ))}
           </select>
           <ErrorMsg field="fatherDetails" errors={errors} />
         </div>
