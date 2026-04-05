@@ -10,7 +10,7 @@ export function AlertProvider({ children }: { children: React.ReactNode }) {
 
   const showAlert = ( title: string, message: string, variant: string = "info", dismissible: boolean = true) => {
     setAlert({ title, message, variant, dismissible });
-    setTimeout(() => setAlert(null), 500000);
+    setTimeout(() => setAlert(null), 10000);
   };
 
   const hideAlert = () => setAlert(null);

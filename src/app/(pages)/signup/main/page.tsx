@@ -11,6 +11,7 @@ import Step5Main from "@/components/pages/signup/main-details/step5-aboutyoursel
 import Step6Main from "@/components/pages/signup/main-details/step6-hobbies";
 import Step7Main from "@/components/pages/signup/main-details/step7-familydetails";
 import StepFinal from "@/components/pages/signup/main-details/step-final";
+import Alert from "@/components/alert/alert";
 
 type FormDataType = {
   [key: string]: any;
@@ -65,13 +66,16 @@ export default function Page() {
       setPhotoStep(1);
   };
 
-  const handleStepFinal =  async (details: any) => {
+  const handleStepFinal = async (uploadDetails: FormData) => {
     try {
-      const response: any = await fetchResources("/upload", details);
+      if (!uploadDetails.get("file")) {
+        Alert({ title: "Upload Required", message: "Please upload a photo before submitting.", variant: "error" });
+        return;
+      }
+      const response: any = await fetchResources("/upload", uploadDetails);
       if (response && typeof response === "object" && "data" in response) {
         console.log("Response from server:", response);
       }
-
     } catch (err) {
       console.error(err);
     }
