@@ -105,7 +105,6 @@ export default function PhotoUpload({ onSubmit }: Props) {
 
     const formData = new FormData();
     formData.append("file", file);
-    console.log("FormData to submit:", formData.get("file"));
     onSubmit(formData);
 
   };
