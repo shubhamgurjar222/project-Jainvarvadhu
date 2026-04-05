@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Info, CheckCircle, AlertTriangle, AlertCircle, X } from "lucide-react";
 
 
-type AlertVariant = "info" | "success" | "warning" | "error";
+type AlertVariant = "info" | "success" | "error";
 
 interface AlertProps {
   title?:       string;
@@ -15,10 +15,11 @@ interface AlertProps {
 
 const STYLES = {
   info: {
-    wrapper:   "bg-info bg-info-subtle border border-info border-2",
+    wrapper:   "bg-warning-subtle custom-border-info",
     text:      "text-blue-900",
     label:     "text-blue-700",
     iconWrap:  "bg-blue-100 text-blue-700",
+    btnWrap:   "close-btn-info",
     icon:      <Info size={40} />,
   },
   success: {
@@ -26,20 +27,15 @@ const STYLES = {
     text:      "text-green-900",
     label:     "text-green-700",
     iconWrap:  "bg-green-100 text-green-700",
+    btnWrap:   "close-btn-success",
     icon:      <CheckCircle size={40} color="green" />,
-  },
-  warning: {
-    wrapper:   "bg-warning bg-warning-subtle border border-warning border-2",
-    text:      "text-yellow-900",
-    label:     "text-yellow-700",
-    iconWrap:  "bg-yellow-100 text-yellow-700",
-    icon:      <AlertTriangle size={40} />,
   },
   error: {
     wrapper:   "bg-danger bg-danger-subtle border border-danger border-2",
     text:      "text-red-900",
     label:     "text-red-700",
     iconWrap:  "bg-red-100 text-red-700",
+    btnWrap:   "close-btn-error",
     icon:      <AlertCircle size={40} color="red" />,
   },
 };
@@ -75,8 +71,8 @@ export default function Alert({ message, variant = "info", title, dismissible = 
       </div>
 
       {dismissible && (
-        <button onClick={handleDismiss} aria-label="Dismiss" className={`bg-transparent opacity-60 hover:opacity-100 ${s.iconWrap}`}>
-          <X size={25} color="Black" strokeWidth={3} />
+        <button onClick={handleDismiss} aria-label="Dismiss" className={`opacity-60 hover:opacity-100 ${s.iconWrap} ${s.btnWrap}`}>
+          <X size={25} color="#ffffff" strokeWidth={3} />
         </button>
       )}
     </div>
