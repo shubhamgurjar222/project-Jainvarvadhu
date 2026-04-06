@@ -20,8 +20,9 @@ export default function RootLayout({ children }: RootLayoutProps) {
   const hideLayout = pathName.startsWith('/signup/');
 
   return (
-    <html lang="en">
+    <html>
       <body>
+
         {!hideLayout && <Header />}
         
         <AlertProvider>

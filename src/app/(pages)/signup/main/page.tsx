@@ -76,7 +76,7 @@ export default function Page() {
         return;
       }
       const response: any = await fetchResources("/upload", uploadDetails);
-      if (response && typeof response === "object" && "data" in response) {
+      if (response.status === 200) {
         const imageUrl = response.data.url;
         showAlert( "Success", "Photo uploaded successfully!","success", true );
         router.push("/dashboard");

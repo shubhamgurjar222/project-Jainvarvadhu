@@ -1,0 +1,168 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+model colleges {
+  id                  Int                   @id @default(autoincrement()) @db.UnsignedInt
+  college_name        String?               @db.VarChar(255)
+  state               String?               @db.VarChar(255)
+  district            String?               @db.VarChar(255)
+  created_at          DateTime?             @default(now()) @db.DateTime(0)
+  updated_at          DateTime?             @default(now()) @db.DateTime(0)
+  user_qualifications user_qualifications[]
+}
+
+model family_details {
+  id                 Int                                @id @default(autoincrement()) @db.UnsignedInt
+  user_id            Int?                               @unique(map: "fk_family_details_user_id") @db.UnsignedInt
+  father_occupation  String?                            @db.VarChar(50)
+  mother_occupation  String?                            @db.VarChar(50)
+  mother_tongue      String                             @db.VarChar(60)
+  sister_count       Int?
+  brother_count      Int?
+  financial_status   family_details_financial_status?
+  living_with_family family_details_living_with_family?
+  created_at         DateTime?                          @db.DateTime(0)
+  updated_at         DateTime?                          @db.DateTime(0)
+  users              users?                             @relation(fields: [user_id], references: [id], onDelete: Cascade, map: "fk_family_details_user_id")
+}
+
+model refresh_tokens {
+  id         Int       @id @default(autoincrement()) @db.UnsignedInt
+  user_id    Int?      @unique(map: "idx_refresh_tokens_user_id") @db.UnsignedInt
+  token_hash String?   @unique(map: "idx_refresh_tokens_token_hash") @db.VarChar(255)
+  expires_at DateTime? @db.DateTime(0)
+  created_at DateTime? @db.DateTime(0)
+  updated_at DateTime? @db.DateTime(0)
+  users      users?    @relation(fields: [user_id], references: [id], onDelete: Cascade, map: "fk_refresh_tokens_user_id")
+}
+
+model user_hobbies {
+  id         Int       @id @default(autoincrement()) @db.UnsignedInt
+  user_id    Int?      @unique(map: "fk_user_hobbies_user_id") @db.UnsignedInt
+  name       String?   @db.VarChar(255)
+  created_at DateTime? @db.DateTime(0)
+  updated_at DateTime? @db.DateTime(0)
+  users      users?    @relation(fields: [user_id], references: [id], onDelete: Cascade, map: "fk_user_hobbies_user_id")
+}
+
+model user_photos {
+  id         Int       @id @default(autoincrement()) @db.UnsignedInt
+  user_id    Int?      @unique(map: "idx_user_photos_user_id") @db.UnsignedInt
+  photo_url  String?   @db.VarChar(255)
+  is_primary Boolean?  @default(false)
+  created_at DateTime? @db.DateTime(0)
+  updated_at DateTime? @db.DateTime(0)
+  users      users?    @relation(fields: [user_id], references: [id], onDelete: Cascade, map: "fk_user_photos_user_id")
+}
+
+model user_profiles {
+  id             Int                          @id @default(autoincrement()) @db.UnsignedInt
+  user_id        Int?                         @unique(map: "user_id") @db.UnsignedInt
+  city           String?                      @db.VarChar(255)
+  state          String?                      @db.VarChar(255)
+  height_cm      String?                      @db.VarChar(255)
+  married_status String?                      @db.VarChar(50)
+  manglik_status user_profiles_manglik_status
+  complexion     user_profiles_complexion
+  blood_group    user_profiles_blood_group
+  birth_place    String                       @db.VarChar(255)
+  diet           String?                      @db.VarChar(50)
+  drinks         Boolean?                     @default(false)
+  smokes         Boolean?                     @default(false)
+  income_range   String?                      @db.VarChar(50)
+  work_type      String?                      @db.VarChar(50)
+  about          String?                      @db.Text
+  created_at     DateTime?                    @db.DateTime(0)
+  updated_at     DateTime?                    @db.DateTime(0)
+  users          users?                       @relation(fields: [user_id], references: [id], onDelete: Cascade, map: "fk_user_profiles_user")
+}
+
+model user_qualifications {
+  id           Int       @id @default(autoincrement()) @db.UnsignedInt
+  user_id      Int?      @unique(map: "fk_user_qualifications_user_id") @db.UnsignedInt
+  degree_type  String?   @db.VarChar(50)
+  stream       String?   @db.VarChar(50)
+  college_id   Int?      @db.UnsignedInt
+  passing_year Int?      @db.Year
+  created_at   DateTime? @db.DateTime(0)
+  updated_at   DateTime? @db.DateTime(0)
+  colleges     colleges? @relation(fields: [college_id], references: [id], onDelete: Cascade, map: "fk_user_qualifications_college_id")
+  users        users?    @relation(fields: [user_id], references: [id], onDelete: Cascade, map: "fk_user_qualifications_user_id")
+
+  @@index([college_id], map: "fk_user_qualifications_college_id")
+}
+
+model users {
+  id                  Int                  @id @default(autoincrement()) @db.UnsignedInt
+  first_name          String               @db.VarChar(255)
+  last_name           String               @db.VarChar(255)
+  email               String               @unique(map: "email") @db.VarChar(255)
+  hashed_password     String?              @db.VarChar(255)
+  phone_no            String?              @unique(map: "phone_no") @db.VarChar(255)
+  dob                 DateTime?            @db.Date
+  gender              users_gender?
+  role                users_role?
+  community           String?              @db.VarChar(255)
+  country             String?              @db.VarChar(255)
+  is_email_verified   Boolean              @default(false)
+  is_phone_verified   Boolean              @default(false)
+  created_at          DateTime?            @db.DateTime(0)
+  updated_at          DateTime?            @db.DateTime(0)
+  family_details      family_details?
+  refresh_tokens      refresh_tokens?
+  user_hobbies        user_hobbies?
+  user_photos         user_photos?
+  user_profiles       user_profiles?
+  user_qualifications user_qualifications?
+}
+
+enum user_profiles_manglik_status {
+  yes
+  no
+}
+
+enum family_details_financial_status {
+  elite
+  high
+  middle
+  aspiring
+}
+
+enum users_gender {
+  male
+  female
+}
+
+enum user_profiles_complexion {
+  very_fair
+  fair
+  wheatish
+  dark
+}
+
+enum family_details_living_with_family {
+  yes
+  no
+}
+
+enum users_role {
+  admin
+  user
+}
+
+enum user_profiles_blood_group {
+  A_POS  @map("A+")
+  A_NEG  @map("A-")
+  B_POS  @map("B+")
+  B_NEG  @map("B-")
+  O_POS  @map("O+")
+  O_NEG  @map("O-")
+  AB_POS @map("AB+")
+  AB_NEG @map("AB-")
+}
