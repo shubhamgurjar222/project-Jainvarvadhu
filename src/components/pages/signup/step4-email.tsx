@@ -50,13 +50,16 @@ export default function Step4Email({ onSubmit }: Props) {
       setDetails({ ...details, email: val });
       sessionStorage.setItem("email", val);
       if (errors.email) setErrors((prev) => ({ ...prev, email: "" }));
+    } 
 
-    } else if (id === "password") {
+    if (id === "password") {
       setDetails({ ...details, password: value });
       sessionStorage.setItem("password", value);
       if (errors.password) setErrors((prev) => ({ ...prev, password: "" }));
 
-    } else if (id === "phoneNo") {
+    }
+    
+    if (id === "phoneNo") {
       const val = value.trim();
       setDetails({ ...details, phoneNo: val });
       sessionStorage.setItem("phoneNo", val);
@@ -67,10 +70,13 @@ export default function Step4Email({ onSubmit }: Props) {
   const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
     const newErrors = validate();
+
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       return;
     }
+
+    console.log(details)
 
     onSubmit(details);
   };

@@ -7,7 +7,7 @@ import { successResponse, errorResponse } from '@/utils/apiResponse';
 export async function POST(req: Request) {
 
     const username = 'testuser';
-    const userId = '12345'; 
+    const userId = Math.random(); 
 
     try {
         const formData = await req.formData();

@@ -61,7 +61,7 @@ export default function Step3Main({ onSubmit }: Props) {
       }
 
       try {
-        const response: any = await fetchResources("/search-colleges", formData);
+        const response: any = await fetchResources("/searchCollegesByName", formData);
         if (response && typeof response === "object" && "data" in response) {
           setResults(response.data || []);
         }

@@ -9,6 +9,7 @@ import Script from 'next/script';
 
 import './../../../public/css/bootstrap.css';
 import './../../../public/css/font-awesome.min.css';
+import './../../../public/css/animate.min.css';
 import './../../../public/css/style.css';
 import './../../../public/css/alert.css';
 
