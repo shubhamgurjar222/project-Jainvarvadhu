@@ -13,7 +13,6 @@ import './../../../public/css/style.css';
 import './../../../public/css/alert.css';
 
 interface RootLayoutProps {  children: ReactNode; }
-interface AlertProps { message: string; variant?: "info" | "success" | "warning" | "error"; title?: string; dismissible?: boolean; onDismiss?: () => void; className?: string; }
 
 export default function RootLayout({ children }: RootLayoutProps) {
   const pathName = usePathname();
@@ -34,7 +33,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
         {/* <Script src="/js/jquery.min.js" strategy="afterInteractive" /> */}
         <Script src='/js/slick.js' strategy='afterInteractive' />
         <Script src="/js/custom.js" strategy="afterInteractive" />
-        <Script id="jquery-global" strategy="beforeInteractive">{`window.$ = window.jQuery = window.jQuery || window.$;`}</Script>
+        {/* <Script id="jquery-global" strategy="beforeInteractive">{`window.$ = window.jQuery = window.jQuery || window.$;`}</Script> */}
         <Script src="/js/popper.min.js" strategy="beforeInteractive" />
         <Script src="/js/bootstrap.min.js" strategy="beforeInteractive" />
         <Script src="/js/mail.js" strategy="beforeInteractive" />
