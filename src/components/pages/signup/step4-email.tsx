@@ -21,6 +21,8 @@ type Props = {
   onSubmit: (data: Details) => void;
 };
 
+let emailTimer: any;
+
 export default function Step4Email({ onSubmit }: Props) {
   const [details, setDetails] = useState<Details>({
     email: sessionStorage.getItem("email") || "",
@@ -48,19 +50,20 @@ export default function Step4Email({ onSubmit }: Props) {
 
     if (id === "email") {
       const trimmedvalue = value.trim();
-      const formData = new FormData();
-      formData.append("email", trimmedvalue);
-
-      try {
-        const isEmailRegistered = await fetchResources("/auth/checkUserByEmail", formData)
-        console.log(isEmailRegistered)
-
-        if (isEmailRegistered?.data) {
-          setErrors((prev) => ({...prev, email: "Email already registered"}));
+      clearTimeout(emailTimer);
+      emailTimer = setTimeout(async () => {
+        const formData = new FormData();
+        formData.append("email", trimmedvalue);
+        try {
+          const isEmailRegistered: any = await fetchResources("/auth/checkUserByEmail", formData);
+          if (isEmailRegistered?.data) {
+            setErrors((prev) => ({ ...prev, email: "Email already registered"}));
+          }
+        } catch (error) {
+          console.error(error);
         }
-      } catch (error) {
-        throw new Error(data?.message || "Request failed");
-      }
+      }, 5000);
+
       setDetails({ ...details, email: trimmedvalue });
       sessionStorage.setItem("email", trimmedvalue);
       if (errors.email) setErrors((prev) => ({ ...prev, email: "" }));
@@ -89,9 +92,6 @@ export default function Step4Email({ onSubmit }: Props) {
       setErrors(newErrors);
       return;
     }
-
-    console.log(details)
-
     onSubmit(details);
   };
 
