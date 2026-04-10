@@ -12,8 +12,8 @@ model colleges {
   college_name        String?               @db.VarChar(255)
   state               String?               @db.VarChar(255)
   district            String?               @db.VarChar(255)
-  created_at          DateTime?             @default(now()) @db.DateTime(0)
-  updated_at          DateTime?             @default(now()) @db.DateTime(0)
+  created_at          DateTime?             @default(now())
+  updated_at          DateTime?             @default(now())
   user_qualifications user_qualifications[]
 }
 
@@ -27,8 +27,8 @@ model family_details {
   brother_count      Int?
   financial_status   family_details_financial_status?
   living_with_family family_details_living_with_family?
-  created_at         DateTime?                          @db.DateTime(0)
-  updated_at         DateTime?                          @db.DateTime(0)
+  created_at         DateTime?                          @default(now())
+  updated_at         DateTime?                          @default(now())
   users              users?                             @relation(fields: [user_id], references: [id], onDelete: Cascade, map: "fk_family_details_user_id")
 }
 
@@ -37,8 +37,8 @@ model refresh_tokens {
   user_id    Int?      @unique(map: "idx_refresh_tokens_user_id") @db.UnsignedInt
   token_hash String?   @unique(map: "idx_refresh_tokens_token_hash") @db.VarChar(255)
   expires_at DateTime? @db.DateTime(0)
-  created_at DateTime? @db.DateTime(0)
-  updated_at DateTime? @db.DateTime(0)
+  created_at DateTime? @default(now())
+  updated_at DateTime? @default(now())
   users      users?    @relation(fields: [user_id], references: [id], onDelete: Cascade, map: "fk_refresh_tokens_user_id")
 }
 
@@ -46,8 +46,8 @@ model user_hobbies {
   id         Int       @id @default(autoincrement()) @db.UnsignedInt
   user_id    Int?      @unique(map: "fk_user_hobbies_user_id") @db.UnsignedInt
   name       String?   @db.VarChar(255)
-  created_at DateTime? @db.DateTime(0)
-  updated_at DateTime? @db.DateTime(0)
+  created_at DateTime? @default(now())
+  updated_at DateTime? @default(now())
   users      users?    @relation(fields: [user_id], references: [id], onDelete: Cascade, map: "fk_user_hobbies_user_id")
 }
 
@@ -56,8 +56,8 @@ model user_photos {
   user_id    Int?      @unique(map: "idx_user_photos_user_id") @db.UnsignedInt
   photo_url  String?   @db.VarChar(255)
   is_primary Boolean?  @default(false)
-  created_at DateTime? @db.DateTime(0)
-  updated_at DateTime? @db.DateTime(0)
+  created_at DateTime? @default(now())
+  updated_at DateTime? @default(now())
   users      users?    @relation(fields: [user_id], references: [id], onDelete: Cascade, map: "fk_user_photos_user_id")
 }
 
@@ -78,8 +78,8 @@ model user_profiles {
   income_range   String?                      @db.VarChar(50)
   work_type      String?                      @db.VarChar(50)
   about          String?                      @db.Text
-  created_at     DateTime?                    @db.DateTime(0)
-  updated_at     DateTime?                    @db.DateTime(0)
+  created_at     DateTime?                    @default(now())
+  updated_at     DateTime?                    @default(now())
   users          users?                       @relation(fields: [user_id], references: [id], onDelete: Cascade, map: "fk_user_profiles_user")
 }
 
@@ -90,8 +90,8 @@ model user_qualifications {
   stream       String?   @db.VarChar(50)
   college_id   Int?      @db.UnsignedInt
   passing_year Int?      @db.Year
-  created_at   DateTime? @db.DateTime(0)
-  updated_at   DateTime? @db.DateTime(0)
+  created_at   DateTime? @default(now())
+  updated_at   DateTime? @default(now())
   colleges     colleges? @relation(fields: [college_id], references: [id], onDelete: Cascade, map: "fk_user_qualifications_college_id")
   users        users?    @relation(fields: [user_id], references: [id], onDelete: Cascade, map: "fk_user_qualifications_user_id")
 
@@ -112,8 +112,8 @@ model users {
   country             String?              @db.VarChar(255)
   is_email_verified   Boolean              @default(false)
   is_phone_verified   Boolean              @default(false)
-  created_at          DateTime?            @db.DateTime(0)
-  updated_at          DateTime?            @db.DateTime(0)
+  created_at          DateTime?            @default(now())
+  updated_at          DateTime?            @default(now())
   family_details      family_details?
   refresh_tokens      refresh_tokens?
   user_hobbies        user_hobbies?
