@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
-import { fetchResources } from "@/lib/fetchResources";
+import { fetchResources } from "@/utils/fetchResources";
 import Step1 from "@/components/pages/signup/step1-gender";
 import Step2 from "@/components/pages/signup/step2-basic";
 import Step3 from "@/components/pages/signup/step3-religion";
@@ -12,46 +12,52 @@ import Final from "@/components/pages/signup/step-final";
 import { useAlert } from "@/context/AlertContext";
 import { useRouter } from "next/navigation";
 
-type SignupFormData = {
-  gender?: string;
-  firstName?: string;
-  lastName?: string;
-  dob?: string;
-  community?: string;
-  country?: string;
-  email?: string;
-  password?: string;
-  phoneNo?: string;
-};
 
 export default function Signup() {
   const router = useRouter();
   const { showAlert } = useAlert();
   const [currentStep, setCurrentStep] = useState<number>(1);
-  const [formData, setFormData] = useState<SignupFormData>({});
-
+  const [formData, setFormData] = useState<Record<string, string>>({});
+  
   const handleStep1Submit = (gender: string) => {
-    const updated = { ...formData, gender };
-    setFormData(updated);
+    setFormData(prev => ({ ...prev, gender }));
     setCurrentStep(2);
   };
 
   const handleStep2Submit = (details: { firstName: string; lastName: string; dob: string; }) => {
-    setFormData(prev => ({ ...prev, ...details }));
+    setFormData(prev => ({ ...prev, firstName: details.firstName, lastName: details.lastName, dob: details.dob }));
     setCurrentStep(3);
   };
 
   const handleStep3Submit = (details: { community: string; country: string; }) => {
-    const updated = { ...formData, ...details };
-    setFormData(updated);
+    setFormData(prev => ({ ...prev, community: details.community, country: details.country }));
     setCurrentStep(4);  
   };
 
-  const handleStep4Submit = (details: { email: string; password: string; phoneNo: string; }) => {
-    const updated = { ...formData, ...details };
-    setFormData(updated);
+  const handleStep4Submit = async (details: { email: string; password: string; phoneNo: string; }) => {
+    const updatedFormData = { ...formData, email: details.email, password: details.password, phoneNo: details.phoneNo };
+
+    try {
+      const updated = new FormData();
+      Object.entries(updatedFormData).forEach(([key, value]) => {
+        updated.append(key, value);
+      });
+
+      const response: any = await fetchResources("/auth/signup", updated)
+
+      if (response.statusCode == 400) {
+        showAlert("Error", response.message, "error", true)
+        return
+      }
+
+      showAlert("Success", "User Registred successFully", "success", true)
+    } catch (error) {
+      showAlert("Error", "Error while registering User ", "error", true);
+    }
     setCurrentStep(5);
   };
+
+
 
   const handleStepFinal = async (uploadDetails: FormData) => {
     try {

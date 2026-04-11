@@ -33,7 +33,7 @@ export async function signup (data: SignupInput) {
         });
 
         if (existingEmail) {
-            return { success: false, error: "Email ld already registred" };
+            return { success: false, message: "Email ld already registred" };
         }
 
         const existingPhoneNo = await prisma.users.findUnique({
@@ -43,7 +43,7 @@ export async function signup (data: SignupInput) {
         })
 
         if (existingPhoneNo) {
-            return { success: false, error: "Phone Number already registred" };
+            return { success: false, message: "Phone Number already registred" };
         }
 
         const response = await prisma.users.create({

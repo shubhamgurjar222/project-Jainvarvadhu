@@ -3,7 +3,7 @@
 import { useState, } from "react";
 import ErrorMsg from "@/components/error/error-msg";
 import { Eye, EyeOff } from "lucide-react";
-import { fetchResources } from "@/lib/fetchResources";
+import { fetchResources } from "@/utils/fetchResources";
 
 type Details = {
   email: string;
@@ -58,28 +58,29 @@ export default function Step4Email({ onSubmit }: Props) {
           const isEmailRegistered: any = await fetchResources("/auth/checkUserByEmail", formData);
           if (isEmailRegistered?.data) {
             setErrors((prev) => ({ ...prev, email: "Email already registered"}));
+            return
           }
         } catch (error) {
           console.error(error);
         }
       }, 5000);
 
-      setDetails({ ...details, email: trimmedvalue });
       sessionStorage.setItem("email", trimmedvalue);
+      setDetails({ ...details, email: sessionStorage.getItem("email") || "" });
       if (errors.email) setErrors((prev) => ({ ...prev, email: "" }));
     } 
 
     if (id === "password") {
-      setDetails({ ...details, password: value });
       sessionStorage.setItem("password", value);
+      setDetails({ ...details, password: sessionStorage.getItem("password") || "" });
       if (errors.password) setErrors((prev) => ({ ...prev, password: "" }));
 
     }
     
     if (id === "phoneNo") {
       const trimmedvalue = value.trim();
-      setDetails({ ...details, phoneNo: trimmedvalue });
       sessionStorage.setItem("phoneNo", trimmedvalue);
+      setDetails({ ...details, phoneNo: sessionStorage.getItem("phoneNo") || "" });
       if (errors.phoneNo) setErrors((prev) => ({ ...prev, phoneNo: "" }));
     }
   };

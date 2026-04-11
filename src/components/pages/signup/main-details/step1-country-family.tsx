@@ -2,7 +2,7 @@
 
 import { useState, ChangeEvent, SyntheticEvent, useEffect } from "react";
 import { City } from "country-state-city";
-import Getcountry from "@/lib/getCountry";
+import Getcountry from "@/utils/getCountry";
 import ErrorMsg from "@/components/error/error-msg";
 import { redirect } from "next/navigation";
 import { useAlert } from "@/context/AlertContext";
@@ -62,9 +62,7 @@ export default function Step1Main({ onSubmit }: Props) {
     return newErrors;
   };
 
-  const handleChange = (
-    e: ChangeEvent<HTMLSelectElement | HTMLInputElement>
-  ) => {
+  const handleChange = ( e: ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {
     const { id, name, value } = e.target;
 
     if (id === "state") {

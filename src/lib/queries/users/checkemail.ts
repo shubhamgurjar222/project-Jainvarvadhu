@@ -11,7 +11,8 @@ type UserResult  = {
 
 
 export async function checkUserByEmail ( email: string ): Promise<UserResult | null> { 
-    const trimmed = email?.trim().toLowerCase();;
+    const trimmed = email?.trim().toLowerCase();
+    console.log(trimmed)
 
     if (!trimmed) {
         return null;
@@ -21,7 +22,6 @@ export async function checkUserByEmail ( email: string ): Promise<UserResult | n
         const user = await prisma.users.findUnique({
             where: {
                 email: trimmed,
-                mode: "insensitive"
             },
             select: {
                 id: true,

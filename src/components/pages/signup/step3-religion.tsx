@@ -31,15 +31,14 @@ export default function Step3Religion({ onSubmit }: Props) {
     const { id, value } = e.target;
 
     if (id === "community") {
-      setDetails({ ...details, community: value });
       sessionStorage.setItem(id, value);
+      setDetails({ ...details, community: sessionStorage.getItem("community") || "" });
       if (errors.community) setErrors((prev) => ({ ...prev, community: "" }));
 
     } if (id === "country") {
-      setDetails({ ...details, country: value });
       sessionStorage.setItem(id, value);
+      setDetails({ ...details, country: sessionStorage.getItem("country") || "" });
       if (errors.country) setErrors((prev) => ({ ...prev, country: "" }));
-
     }
   };
 

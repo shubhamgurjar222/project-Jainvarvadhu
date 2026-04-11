@@ -3,7 +3,7 @@
 import { useState, useRef, ChangeEvent, SyntheticEvent } from "react";
 import ErrorMsg from "@/components/error/error-msg";
 import { educationLevel } from "@/data/educationLevel";
-import { fetchResources } from "@/lib/fetchResources";
+import { fetchResources } from "@/utils/fetchResources";
 
 type Details = {
   highestqualification: string;

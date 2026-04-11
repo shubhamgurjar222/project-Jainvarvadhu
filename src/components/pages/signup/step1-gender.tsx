@@ -5,21 +5,26 @@ type Step1GenderProps = {
   onSubmit: (gender: string) => void;
 };
 
+enum Gender {
+  Male = "male",
+  Female = "female"
+}
+
 export default function Step1Gender({ onSubmit }: Step1GenderProps) {
   
-  const [gender, setGender] = useState<string>("");
+  const [gender, setGender] = useState<Gender | null>();
 
   useEffect(() => {
   const savedGender = sessionStorage.getItem("gender");
   if (savedGender) {
-    setGender(savedGender);
+    setGender(savedGender as Gender);
   }
 }, []);
 
 
 const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  setGender(e.target.value);
   sessionStorage.setItem("gender", e.target.value);
+  setGender(sessionStorage.getItem("gender") as Gender);
 };
 
 const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {

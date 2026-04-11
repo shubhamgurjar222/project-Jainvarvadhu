@@ -13,7 +13,7 @@ export async function fetchResources(url: string, body?: FormData, token: string
         ...(token && { Authorization: `Bearer ${token}` }),
       }
     });
-    const data = await res.json();
+    const data = await res.json()
     return data;
 
   } catch (error) {

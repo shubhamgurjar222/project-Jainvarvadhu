@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import calculateAge from "@/lib/ageCalculator";
+import calculateAge from "@/utils/ageCalculator";
 import ErrorMsg from "@/components/error/error-msg";
 
 type Details = {
@@ -77,15 +77,14 @@ export default function Step2Basic({ onSubmit }: Step2BasicProps) {
     const { id, value } = e.target;
 
     if (id === "firstName") {
-      setDetails((prev) => ({ ...prev, firstName: value.trim() }));
       sessionStorage.setItem(id, value.trim());
-
+      setDetails(({ ...details, firstName: sessionStorage.getItem("firstName") || "" }));
       if (errors.firstName) setErrors((prev) => ({ ...prev, firstName: "" }));
     }
 
     if (id === "lastName") {
-      setDetails((prev) => ({ ...prev, lastName: value.trim() }));
       sessionStorage.setItem(id, value.trim());
+      setDetails( ({ ...details, lastName: sessionStorage.getItem("lastName") || "" }));
 
       if (errors.lastName) setErrors((prev) => ({ ...prev, lastName: "" }));
     }
@@ -105,8 +104,7 @@ export default function Step2Basic({ onSubmit }: Step2BasicProps) {
         sessionStorage.setItem("month", month);
         sessionStorage.setItem("date", date);
         sessionStorage.setItem("year", year);
-
-        setDetails((prev) => ({...prev, dob: `${year}-${month}-${date}`}));
+        setDetails(({...details, dob: `${year}-${month}-${date}`}));
       }
 
       if (errors.dob) {
