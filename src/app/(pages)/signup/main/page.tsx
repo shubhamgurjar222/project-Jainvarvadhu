@@ -58,7 +58,6 @@ export default function Page() {
 
   const handleStep7Main = (details: any) => {
     const { fatherDetails, motherDetails, sisters, brothers, familyFinancialStatus, } = details;
-    console.log(formData)
 
     setFormData((prev) => ({
       ...prev, fatherDetails, motherDetails, sisters, brothers, familyFinancialStatus, }));

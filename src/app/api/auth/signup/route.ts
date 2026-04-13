@@ -2,6 +2,7 @@ import { errorResponse, successResponse } from "@/utils/apiResponse"
 import { signup  } from "@/lib/queries/users/signup"
 import { generateAccessToken, generateRefreshToken } from "@/lib/jwt"
 import { cookies } from "next/headers";
+import { hashPassword } from "@/lib/hashPassword"
 
 type signUp = {
     gender: "male" | "female";
@@ -25,6 +26,7 @@ export async function POST(request: Request): Promise<Response> {
 
     const dobInput = formData.get("dob") as string;
     const dob = new Date(dobInput)
+    const hashedPassword = await hashPassword(formData.get("password") as string)
 
     const userData: signUp = {
       gender: formData.get("gender") as "male" | "female",
@@ -34,9 +36,11 @@ export async function POST(request: Request): Promise<Response> {
       community: formData.get("community") as string,
       country: formData.get("country") as string,
       email: formData.get("email") as string,
-      hashed_password: formData.get("password") as string,
+      hashed_password: hashedPassword ,
       phone_no: formData.get("phoneNo") as string,
     };
+
+    
 
     const data: any = await signup(userData);
 
@@ -61,7 +65,7 @@ export async function POST(request: Request): Promise<Response> {
     const accessToken = generateAccessToken(payload);
     const refreshToken = generateRefreshToken(payload);
 
-    const cookieStore = await cookies();
+    const cookieStore  = await cookies();
     cookieStore.set("refreshToken", refreshToken, {
       httpOnly: true,
       secure: true,
@@ -70,9 +74,16 @@ export async function POST(request: Request): Promise<Response> {
       maxAge: 7 * 24 * 60 * 60, 
     });
 
+    cookieStore.set("accessToken", accessToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "strict",
+      path: "/",
+      maxAge: 15 * 60, 
+    });
+
     const response = { 
       user: { ...data, dob: data.dob.toISOString().split("T")[0] },
-      accessToken,
     }
         
     return successResponse(200, response, "User Registered Successfully & Logged In");

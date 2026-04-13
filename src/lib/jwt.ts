@@ -7,7 +7,7 @@ const REFRESH_EXPIRY: SignOptions["expiresIn"] = (process.env.REFRESH_TOKEN_EXPI
 const ALGORITHM: SignOptions["algorithm"] = "HS256";
 
 type JwtPayload = {
-  id: Number;
+  id: number;
   email: string;
   firstName: string;
   lastName: string

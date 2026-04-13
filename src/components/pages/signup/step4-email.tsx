@@ -118,13 +118,8 @@ export default function Step4Email({ onSubmit }: Props) {
             <button
               type="button"
               className="position-absolute top-50 end-0 translate-middle-y pe-2 bg-transparent"
-              onClick={() => setShowPassword(!showPassword)}
-            >
-              {showPassword ? (
-                <Eye color="#66451c" />
-              ) : (
-                <EyeOff color="#66451c" />
-              )}
+              onClick={() => setShowPassword(!showPassword)}>
+              {showPassword ? ( <Eye color="#66451c" /> ) : ( <EyeOff color="#66451c" /> )}
             </button>
           </div>
           <ErrorMsg field="password" errors={errors} />

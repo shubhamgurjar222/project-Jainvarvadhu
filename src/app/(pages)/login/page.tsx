@@ -1,13 +1,53 @@
-import { Metadata } from "next"
-import Link from "next/link"
+"use client"
 
-export const metadata = {
+import { fetchResources } from "@/utils/fetchResources";
+import { metadata } from "next"
+import { useRouter } from "next/navigation";
+import  LoginForm from "@/components/pages/login/login"
+import { useAlert } from "@/context/AlertContext";
+
+export const Metadata = {
     title: "Login - Wedding Matrimony",
     description: "Login component for the Wedding Matrimony website.",
 }
 
 
 export default function Login() {
+
+    const router = useRouter();
+    const { showAlert } = useAlert();
+
+    const handleLogin = async (details: { email: string; password: string;}) => {
+        const { email, password } = details
+        const formData = new FormData();
+        formData.append("email", email);    
+        formData.append("password", password);
+
+        try {
+            const response: any = await fetchResources("/auth/login", formData);
+
+            console.log(response)
+
+            if (response.message === "Incorrect Password") {
+                showAlert("Error", response.message, "error", true)
+            }
+
+            if (response.message === "User Not Found") {
+                showAlert("Error", response.message, "error", true)
+            }
+
+
+            if (response.success === true) {
+                router.push("/dashboard");
+            } else {
+                console.log(response.message);
+            }
+            
+        } catch (error) {
+            console.error("Login error:", error);
+        }
+    };
+
     return (
         <>
             <section>
@@ -25,36 +65,7 @@ export default function Login() {
                                     </div>
                                     <div className="log-bg">&nbsp;</div>
                                 </div>
-                                <div className="rhs">
-                                    <div>
-                                        <div className="form-tit">
-                                            <h4>Start for free</h4>
-                                            <h1>Sign in to Jainvarvadhu</h1>
-                                            <p>Not a member? <Link href="/signup">Sign up now</Link></p>
-                                        </div>
-                                        <div className="form-login">
-                                            <form>
-                                                <div className="form-group">
-                                                    <label className="lb">Email:</label>
-                                                    <input type="email" className="form-control" id="email"
-                                                        placeholder="Enter email" name="email" />
-                                                </div>
-                                                <div className="form-group">
-                                                    <label className="lb">Password:</label>
-                                                    <input type="password" className="form-control" id="pwd"
-                                                        placeholder="Enter password" name="pswd"></input>
-                                                </div>
-                                                <div className="form-group form-check">
-                                                    <label className="form-check-label">
-                                                        <input className="form-check-input" type="checkbox" name="agree"></input> Remember
-                                                        me
-                                                    </label>
-                                                </div>
-                                                <button type="submit" className="btn btn-primary">Sign in</button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
+                                <LoginForm onSubmit={handleLogin} />
                             </div>
 
                         </div>
