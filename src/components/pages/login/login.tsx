@@ -42,7 +42,6 @@ export default function LoginForm ({ onSubmit }: Props) {
     
         if (id === "email") {
           const trimmedemail = value.trim();
-          console.log(trimmedemail)
           if (!trimmedemail) {
             setErrors((prev) => ({ ...prev, email: "" }));
             return
@@ -52,7 +51,6 @@ export default function LoginForm ({ onSubmit }: Props) {
 
         if (id === "password") {
             const trimmedPassword = value.trim();
-            console.log(trimmedPassword)
             if (!trimmedPassword) {
                 setErrors((prev) => ({ ...prev, password: "" }));
                 return

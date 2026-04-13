@@ -19,11 +19,11 @@ const generateToken = ( payload: JwtPayload, secret: string, expiresIn: SignOpti
 
 const verifyToken = (token: string, secret: string): JwtPayload => {
     try {
-        return jwt.verify(token, secret, {
-            algorithms: [ALGORITHM],
-        }) as JwtPayload;
+      return jwt.verify(token, secret, {
+          algorithms: [ALGORITHM],
+      }) as JwtPayload;
     } catch {
-        throw new Error("Invalid or expired token");
+      throw new Error("Invalid or expired token");
     }
 };
 
@@ -35,8 +35,10 @@ export const generateRefreshToken = (payload: JwtPayload) => {
   return generateToken(payload, REFRESH_SECRET, REFRESH_EXPIRY);
 };
 
-export const verifyAccessToken = (token: string) =>
-  verifyToken(token, ACCESS_SECRET);
+export const verifyAccessToken = (token: string) => {
+  return verifyToken(token, ACCESS_SECRET);
+}
 
-export const verifyRefreshToken = (token: string) =>
-  verifyToken(token, REFRESH_SECRET);
+export const verifyRefreshToken = (token: string) => {
+  return verifyToken(token, REFRESH_SECRET);
+}

@@ -40,12 +40,16 @@ export async function POST(request: Request): Promise<Response> {
       phone_no: formData.get("phoneNo") as string,
     };
 
-    
+    for (const [field, value] of Object.entries(userData)) {
+      if (!value || (typeof value === "string" && !value.trim())) {
+        return errorResponse(400, `Required field: ${field}`)
+      }
+    }    
 
     const data: any = await signup(userData);
 
     if (data?.success == false) {
-      if (data.message == "Email ld already registred") {
+      if (data.message == "Email already registered") {
         return errorResponse(400, data.message)
       }
 
@@ -53,7 +57,6 @@ export async function POST(request: Request): Promise<Response> {
         return errorResponse(400, data.message)
       }
     }
-
 
     const payload = {
       id: data.id,

@@ -19,16 +19,14 @@ export default function LoginClient() {
         try {
             const response: any = await fetchResources("/auth/login", formData);
 
-            console.log(response)
-
             if (response.message === "Incorrect Password") {
                 showAlert("Error", response.message, "error", true)
+                
             }
 
             if (response.message === "User Not Found") {
                 showAlert("Error", response.message, "error", true)
             }
-
 
             if (response.success === true) {
                 router.push("/dashboard");
