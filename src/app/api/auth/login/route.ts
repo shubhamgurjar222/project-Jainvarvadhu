@@ -17,24 +17,24 @@ export async function POST(request: Request): Promise<Response> {
     const password = formData.get('password') as string
 
     if (!email) {
-        return errorResponse(400, "Email is Required")
+      return errorResponse(400, "Email is Required")
     }
 
     if (!password) {
-        return errorResponse(400, "Password is Required")
+      return errorResponse(400, "Password is Required")
     }
 
     const userData = await getUserByMailId(email)
 
     if (userData?.success === false) {
-        return errorResponse(404, "User Not Found")
+      return errorResponse(404, "Invalid email or password")
     }
 
     const hashedPassword = userData?.data?.hashed_password;
     const verifiedPassword = await verifyPassword(password, hashedPassword as string)
 
     if (verifiedPassword === false) {
-        return errorResponse (401, "Incorrect Password")
+      return errorResponse (401, "Invalid email or password")
     }
 
     const payload = {
@@ -67,10 +67,10 @@ export async function POST(request: Request): Promise<Response> {
 
     
     const response = {
-        id: userData?.data?.id,
-        first_name: userData?.data?.first_name,
-        last_name: userData?.data?.last_name,
-        email: userData?.data?.email,
+      id: userData?.data?.id,
+      first_name: userData?.data?.first_name,
+      last_name: userData?.data?.last_name,
+      email: userData?.data?.email,
     };
         
     return successResponse(200, response, "User Logged In Successfully");

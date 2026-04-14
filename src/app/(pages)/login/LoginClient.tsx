@@ -21,7 +21,6 @@ export default function LoginClient() {
 
             if (response.message === "Incorrect Password") {
                 showAlert("Error", response.message, "error", true)
-                
             }
 
             if (response.message === "User Not Found") {
@@ -30,8 +29,6 @@ export default function LoginClient() {
 
             if (response.success === true) {
                 router.push("/dashboard");
-            } else {
-                console.log(response.message);
             }
 
         } catch (error) {
@@ -45,7 +42,6 @@ export default function LoginClient() {
                 <div className="login">
                     <div className="container">
                         <div className="row">
-
                             <div className="inn">
                                 <div className="lhs">
                                     <div className="tit">

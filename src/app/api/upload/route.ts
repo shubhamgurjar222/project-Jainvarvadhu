@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server';
 import cloudinary from '@/utils/cloudinary';
 import { UploadApiResponse } from 'cloudinary';
 import { successResponse, errorResponse } from '@/utils/apiResponse';
+import getUserFromToken from "@/lib/getUserByAccessToken";
+import { uploadPhoto } from "@/lib/queries/users/uploadPhoto";
 
 
 export async function POST(req: Request) {
@@ -30,6 +32,8 @@ export async function POST(req: Request) {
         const bytes = await file.arrayBuffer();
         const buffer = Buffer.from(bytes);
 
+
+
         const uploadResponse = await new Promise<UploadApiResponse>((resolve, reject) => {
         cloudinary.uploader.upload_stream(
             {   folder: 'uploads',
@@ -42,6 +46,14 @@ export async function POST(req: Request) {
             }
         ).end(buffer);
         });
+
+        const { url } = uploadResponse
+        const user = await getUserFromToken()
+        const isPhotoSaved = await uploadPhoto(user.id, url, true)
+
+        if(!isPhotoSaved) {
+            return errorResponse(400, "Failed to Save URL in DB")
+        }
 
         return successResponse(200, uploadResponse, 'File uploaded successfully');
     } catch (error) {

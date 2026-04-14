@@ -1,5 +1,5 @@
 import { errorResponse, successResponse } from "@/utils/apiResponse"
-import { checkUserByEmail } from "@/lib/queries/users/checkemail"
+import { checkUserByEmail } from "@/lib/queries/users/checkEmail"
 
 export async function GET(): Promise<Response> {
   return errorResponse(405, "GET method not allowed. Use POST.");

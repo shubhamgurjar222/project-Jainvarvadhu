@@ -12,8 +12,10 @@ import Final from "@/components/pages/signup/step-final";
 import { useAlert } from "@/context/AlertContext";
 import { useRouter } from "next/navigation";
 
+
+
 export default function SignupClient () {
-    const router = useRouter();
+  const router = useRouter();
   const { showAlert } = useAlert();
   const [currentStep, setCurrentStep] = useState<number>(1);
   const [formData, setFormData] = useState<Record<string, string>>({});
@@ -49,6 +51,11 @@ export default function SignupClient () {
         return
       }
 
+      if (response.statusCode == 500) {
+        showAlert("Error", response.message, "error", true)
+        return
+      }
+
       showAlert("Success", "User Registred successFully", "success", true)
     } catch (error) {
       showAlert("Error", "Error while registering User ", "error", true);
@@ -60,11 +67,13 @@ export default function SignupClient () {
 
   const handleStepFinal = async (uploadDetails: FormData) => {
     try {
+
       if (!uploadDetails.get("file")) {
         showAlert({ title: "Upload Required", message: "Please upload a photo before submitting.", variant: "error", dismissible: true });
         return;
       }
       const response: any = await fetchResources("/upload", uploadDetails);
+
       if (response.statusCode === 200) {
         showAlert( "Success", "Photo uploaded successfully!","success", true );
         router.push("/dashboard");
