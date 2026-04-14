@@ -118,14 +118,15 @@ export async function POST(request: Request): Promise<Response> {
       maxAge: 15 * 60, 
     });
 
-    const isTokenSaved = await saveRefreshTokenInDB(payload.id, refreshToken)
+    
+    const response = { user: { ...data, dob: data.dob } }
+    
+    const isTokenSaved = await saveRefreshTokenInDB(data.id, refreshToken)
 
     if (!isTokenSaved) {
       return errorResponse(400, "Token Not Saved");
     }
 
-    const response = { user: { ...data, dob: data.dob } }
-        
     return successResponse(200, response, "User Registered Successfully & Logged In");
     
   } catch (error: any) {
