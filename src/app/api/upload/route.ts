@@ -1,4 +1,3 @@
-import { NextResponse } from 'next/server';
 import cloudinary from '@/utils/cloudinary';
 import { UploadApiResponse } from 'cloudinary';
 import { successResponse, errorResponse } from '@/utils/apiResponse';

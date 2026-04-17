@@ -9142,26 +9142,26 @@ span.mail::before {
 .db-nav-list ul li{
     margin-bottom: 5px;
 }
-.db-nav-list ul li a{
+.db-nav-list ul li button{
     display: block;
     font-weight: 500;
     padding: 7px 5px;
     font-size: 15px;
     position: relative;
     color: #000;
+    background-color: transparent;
 }
-.db-nav-list ul li a i{
+.db-nav-list ul li button i{
     margin-right: 18px;
     width: 20px;
     text-align: center;
 }
-.db-nav-list ul li a.act{
+.db-nav-list ul li button.act{
     color: #03A9F4;
     background: #e4f1fc;
     background: linear-gradient(to left,#ffffff,#e4f1fc 70%);
     }
-.db-nav-list ul li a.act i{}
-.db-nav-list ul li a.act:before {
+.db-nav-list ul li button.act:before {
     content: '';
     position: absolute;
     width: 4px;

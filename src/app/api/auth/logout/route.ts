@@ -1,6 +1,5 @@
 import { errorResponse, successResponse } from "@/utils/apiResponse"
 import { cookies } from "next/headers";
-import { NextResponse } from "next/server";
 import { logout } from "@/lib/queries/users/logout"
 
 
@@ -10,6 +9,7 @@ export async function GET(): Promise<Response> {
 
 
 export async function POST(): Promise<Response> {
+
   try {
     const cookieStore = await cookies();
 
@@ -18,7 +18,7 @@ export async function POST(): Promise<Response> {
     const refreshTokenStatus = await logout(refreshToken)
 
     if (!refreshTokenStatus) {
-        return errorResponse(400, "Failed to Delete Refresh Token")
+      return errorResponse(400, "Failed to logged out user")
     }
 
     cookieStore.set("accessToken", "", {
@@ -31,7 +31,7 @@ export async function POST(): Promise<Response> {
       expires: new Date(0),
     });
 
-     return successResponse(200, null, 'Logged out successfully');
+    return successResponse(200, null, 'Logged out successfully');
   } catch (error) {
     console.error(error);
     return errorResponse(500, "Logged out Failed")
