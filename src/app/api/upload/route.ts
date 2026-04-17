@@ -6,15 +6,13 @@ import getUserFromToken from "@/lib/getUserByAccessToken";
 import { uploadPhoto } from "@/lib/queries/users/uploadPhoto";
 
 
-export async function POST(req: Request) {
-
-    const username = 'testuser';
-    const userId = Math.random(); 
+export async function POST(req: Request) { 
 
     try {
         const formData = await req.formData();
         const file = formData.get('file') as File;
         const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
+        const user = await getUserFromToken()
 
         if (!file || !(file instanceof File)) {
             return errorResponse(400, 'File upload failed');
@@ -32,6 +30,8 @@ export async function POST(req: Request) {
         const bytes = await file.arrayBuffer();
         const buffer = Buffer.from(bytes);
 
+        const username = user.firstName;
+        const userId = user.id;
 
 
         const uploadResponse = await new Promise<UploadApiResponse>((resolve, reject) => {
@@ -48,7 +48,7 @@ export async function POST(req: Request) {
         });
 
         const { url } = uploadResponse
-        const user = await getUserFromToken()
+        
         const isPhotoSaved = await uploadPhoto(user.id, url, true)
 
         if(!isPhotoSaved) {

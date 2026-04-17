@@ -31,8 +31,9 @@ export const generateAccessToken = (payload: JwtPayload) => {
   return generateToken(payload, ACCESS_SECRET, ACCESS_EXPIRY);
 };
 
-export const generateRefreshToken = (payload: JwtPayload) => {
-  return generateToken(payload, REFRESH_SECRET, REFRESH_EXPIRY);
+export const generateRefreshToken = (payload: JwtPayload, rememberMe: boolean) => {
+  const expiry = rememberMe ? "30d" : "1d";
+  return generateToken(payload, REFRESH_SECRET, expiry);
 };
 
 export const verifyAccessToken = (token: string) => {

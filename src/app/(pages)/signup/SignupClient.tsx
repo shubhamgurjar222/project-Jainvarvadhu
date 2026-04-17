@@ -13,7 +13,6 @@ import { useAlert } from "@/context/AlertContext";
 import { useRouter } from "next/navigation";
 
 
-
 export default function SignupClient () {
   const router = useRouter();
   const { showAlert } = useAlert();
@@ -57,13 +56,12 @@ export default function SignupClient () {
       }
 
       showAlert("Success", "User Registred successFully", "success", true)
+      setCurrentStep(5);
     } catch (error) {
       showAlert("Error", "Error while registering User ", "error", true);
+      return
     }
-    setCurrentStep(5);
   };
-
-
 
   const handleStepFinal = async (uploadDetails: FormData) => {
     try {
@@ -107,8 +105,9 @@ export default function SignupClient () {
                     <p>Already a member? <Link href="/login">Login</Link></p>
                   </div>
 
-                  {currentStep > 1 && (
-                    <button className="mb-3 bg-transparent" onClick={() => setCurrentStep(currentStep - 1)}>
+                  {currentStep > 1 && currentStep < 5 && (
+                    <button className="mb-3 bg-transparent"
+                      onClick={() => setCurrentStep(currentStep - 1)}>
                       <ArrowLeft />
                     </button>
                   )}
@@ -122,6 +121,7 @@ export default function SignupClient () {
                   {currentStep === 4 && ( <Step4 key={currentStep} onSubmit={handleStep4Submit} /> )}
 
                   {currentStep === 5 && ( <Final key={currentStep} onSubmit={handleStepFinal} /> )}
+
                 </div>
               </div>
             </div>

@@ -15,13 +15,10 @@ export async function POST(request: Request): Promise<Response> {
 
     const email = formData.get('email') as string
     const password = formData.get('password') as string
+    const isRemember = formData.get('isRemember') as string
 
-    if (!email) {
-      return errorResponse(400, "Email is Required")
-    }
-
-    if (!password) {
-      return errorResponse(400, "Password is Required")
+    if (!email || !password) {
+      return errorResponse(400, "Missing Fields")
     }
 
     const userData = await getUserByMailId(email)
@@ -44,8 +41,9 @@ export async function POST(request: Request): Promise<Response> {
       lastName: userData?.data?.last_name as string,
     };
 
+    const isTrue = isRemember === "true"
     const accessToken = generateAccessToken(payload);
-    const refreshToken = generateRefreshToken(payload);
+    const refreshToken = generateRefreshToken(payload, isTrue);
 
     const cookieStore  = await cookies();
 

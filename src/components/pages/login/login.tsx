@@ -16,6 +16,7 @@ type Errors = {
 type Details = {
   email: string;
   password: string;
+  rememberMe: boolean;
 };
 
 
@@ -24,6 +25,7 @@ export default function LoginForm ({ onSubmit }: Props) {
     const [details, setDetails] = useState<Details>({
         email: "",
         password: "",
+        rememberMe: false,
     });
 
     const [errors, setErrors] = useState<Errors>({});
@@ -38,7 +40,7 @@ export default function LoginForm ({ onSubmit }: Props) {
     };
 
     const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { id, value } = e.target;
+        const { id, value, type, checked } = e.target;
     
         if (id === "email") {
           const trimmedemail = value.trim();
@@ -57,9 +59,14 @@ export default function LoginForm ({ onSubmit }: Props) {
             }
             setDetails({ ...details, password: trimmedPassword });
         }
-      };
 
-      const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
+        if (type === "checkbox") {
+            setDetails({ ...details, [id]: checked });
+            return;
+        }
+    };
+
+    const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
         e.preventDefault();
         const newErrors = validate();
 
@@ -109,7 +116,7 @@ export default function LoginForm ({ onSubmit }: Props) {
                         </div>
                         <div className="form-group form-check">
                             <label className="form-check-label">
-                                <input className="form-check-input" type="checkbox" name="agree"></input> Remember
+                                <input className="form-check-input" type="checkbox" id="rememberMe" checked={details.rememberMe} onChange={handleChange}></input> Remember
                                 me
                             </label>
                         </div>

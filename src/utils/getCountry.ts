@@ -8,7 +8,6 @@ export default function getStatesByCountryName(countryName: string): IState[] {
   );
 
   if (!country) {
-    console.log('Country not found');
     return [];
   }
 

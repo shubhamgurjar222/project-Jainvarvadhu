@@ -10,11 +10,12 @@ export default function LoginClient() {
     const router = useRouter();
     const { showAlert } = useAlert();
 
-    const handleLogin = async (details: { email: string; password: string;}) => {
-        const { email, password } = details
+    const handleLogin = async (details: { email: string; password: string; rememberMe: boolean}) => {
+        const { email, password, rememberMe } = details
         const formData = new FormData();
         formData.append("email", email);    
         formData.append("password", password);
+        formData.append('isRemember', rememberMe.toString())
 
         try {
             const response: any = await fetchResources("/auth/login", formData);

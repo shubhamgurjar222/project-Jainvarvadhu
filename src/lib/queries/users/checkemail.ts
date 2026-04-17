@@ -1,5 +1,4 @@
 import { prisma } from "@/lib/prisma";
-import { error } from "console";
 
 type UserResult  = {
   id: number;
@@ -12,11 +11,6 @@ type UserResult  = {
 
 export async function checkUserByEmail ( email: string ): Promise<UserResult | null> { 
     const trimmed = email?.trim().toLowerCase();
-    console.log(trimmed)
-
-    if (!trimmed) {
-        return null;
-    }
 
     try {
         const user = await prisma.users.findUnique({
