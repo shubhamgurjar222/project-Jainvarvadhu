@@ -44,19 +44,22 @@ export default function SignupClient () {
       });
 
       const response: any = await fetchResources("/auth/signup", updated)
-
-      if (response.statusCode == 400) {
+      
+      if (response.statusCode === 500) {
         showAlert("Error", response.message, "error", true)
         return
       }
 
-      if (response.statusCode == 500) {
+      if (response.statusCode === 400) {
         showAlert("Error", response.message, "error", true)
         return
       }
 
-      showAlert("Success", "User Registred successFully", "success", true)
-      setCurrentStep(5);
+      if (response.statusCode === 200) {
+        showAlert("Success", response.message, "success", true)
+        setCurrentStep(5);
+      }
+
     } catch (error) {
       showAlert("Error", "Error while registering User ", "error", true);
       return

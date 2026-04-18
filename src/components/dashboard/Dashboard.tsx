@@ -48,13 +48,12 @@ export default function Dashboard () {
                                 <div className="db-nav-list">
                                     <ul>
                                         <li><button onClick={() => setPage(Page.Home)} className="act"><i className="fa fa-tachometer" aria-hidden="true"></i>Dashboard</button></li>
-                                        <li><button onClick={() => setPage(Page.Profile)}><i className="fa fa-male" aria-hidden="true"></i>Profile</button></li>
-                                        <li><button onClick={() => setPage(Page.Interest)}><i className="fa fa-handshake-o" aria-hidden="true"></i>Interests</button></li>
-                                        <li><button onClick={() => setPage(Page.ChatList)}><i className="fa fa-commenting-o" aria-hidden="true"></i>Chat list</button></li>
-                                        <li><button onClick={() => setPage(Page.Plan)}><i className="fa fa-money" aria-hidden="true"></i>Plan</button></li>
-                                        <li><button onClick={() => setPage(Page.Settings)}><i className="fa fa-cog" aria-hidden="true"></i>Setting</button></li>
+                                        <li><button onClick={() => setPage(Page.Profile)} className="act"><i className="fa fa-male" aria-hidden="true"></i>Profile</button></li>
+                                        <li><button onClick={() => setPage(Page.Interest)} className="act"><i className="fa fa-handshake-o" aria-hidden="true"></i>Interests</button></li>
+                                        <li><button onClick={() => setPage(Page.ChatList)} className="act"><i className="fa fa-commenting-o" aria-hidden="true"></i>Chat list</button></li>
+                                        <li><button onClick={() => setPage(Page.Plan)} className="act"><i className="fa fa-money" aria-hidden="true"></i>Plan</button></li>
+                                        <li><button onClick={() => setPage(Page.Settings)} className="act"><i className="fa fa-cog" aria-hidden="true"></i>Setting</button></li>
                                         <li><button onClick={handleLogout}><i className="fa fa-sign-out" aria-hidden="true"></i>Log out</button></li>
-
                                     </ul>
                                 </div>
                             </div>

@@ -20,16 +20,24 @@ export default function LoginClient() {
         try {
             const response: any = await fetchResources("/auth/login", formData);
 
-            if (response.message === "Incorrect Password") {
+            if (response.statusCode === 500) {
                 showAlert("Error", response.message, "error", true)
+                return
             }
 
-            if (response.message === "User Not Found") {
+            if (response.statusCode === 401) {
                 showAlert("Error", response.message, "error", true)
+                return 
             }
 
-            if (response.success === true) {
+            if (response.statusCode === 404) {
+                showAlert("Error", response.message, "error", true)
+                return
+            }
+            
+            if (response.statusCode === 200) {
                 router.push("/dashboard");
+                showAlert("Success", response.message, "success", true)
             }
 
         } catch (error) {

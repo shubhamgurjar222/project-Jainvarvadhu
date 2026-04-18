@@ -18,13 +18,13 @@ export async function POST(request: Request): Promise<Response> {
     const isRemember = formData.get('isRemember') as string
 
     if (!email || !password) {
-      return errorResponse(400, "Missing Fields")
+      return errorResponse(400, "Bad Request")
     }
 
     const userData = await getUserByMailId(email)
 
     if (userData?.success === false) {
-      return errorResponse(404, "Invalid email or password")
+      return errorResponse(404, " User Not Found")
     }
 
     const hashedPassword = userData?.data?.hashed_password;
