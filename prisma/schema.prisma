@@ -22,7 +22,7 @@ model family_details {
   user_id            Int?                               @unique(map: "fk_family_details_user_id") @db.UnsignedInt
   father_occupation  String?                            @db.VarChar(50)
   mother_occupation  String?                            @db.VarChar(50)
-  mother_tongue      String                             @db.VarChar(60)
+  mother_tongue      String?                            @db.VarChar(60)
   sister_count       Int?
   brother_count      Int?
   financial_status   family_details_financial_status?
