@@ -3,7 +3,6 @@ import jwt, { SignOptions } from "jsonwebtoken";
 const ACCESS_SECRET: string = process.env.ACCESS_TOKEN_SECRET!;
 const REFRESH_SECRET: string = process.env.REFRESH_TOKEN_SECRET!;
 const ACCESS_EXPIRY: SignOptions["expiresIn"] = (process.env.ACCESS_TOKEN_EXPIRY as SignOptions["expiresIn"]) || "1h";
-const REFRESH_EXPIRY: SignOptions["expiresIn"] = (process.env.REFRESH_TOKEN_EXPIRY as SignOptions["expiresIn"]) || "7d";;
 const ALGORITHM: SignOptions["algorithm"] = "HS256";
 
 type JwtPayload = {
@@ -19,9 +18,7 @@ const generateToken = ( payload: JwtPayload, secret: string, expiresIn: SignOpti
 
 const verifyToken = (token: string, secret: string): JwtPayload => {
     try {
-      return jwt.verify(token, secret, {
-          algorithms: [ALGORITHM],
-      }) as JwtPayload;
+      return jwt.verify(token, secret, { algorithms: [ALGORITHM], }) as JwtPayload; 
     } catch {
       throw new Error("Invalid or expired token");
     }

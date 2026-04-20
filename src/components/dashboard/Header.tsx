@@ -1,4 +1,5 @@
 import Link from "next/link"
+import AdvisorCard from "@/components/dashboard/AdvisorCard"
 
 export default function Header() { 
 
@@ -40,24 +41,9 @@ export default function Header() {
                                 </div>
 
                                 <div className="bl">
-                                    <ul>
-                                        <li>
-                                            <Link href="/plans"> Plans </Link>
-                                        </li>
-                                        <li>
-                                            <Link href="/contact"> Contact US </Link>
-                                        </li>
-                                        <li>
-                                            <Link href="/about"> About US </Link>
-                                        </li>
-                                        <li>
-                                            <Link href="/signup"> Register </Link>
-                                        </li>
-                                        <li>
-                                            <Link href="/login"> Login </Link>
-                                        </li>
-                                    </ul>
                                 </div>
+
+                                <AdvisorCard />
 
                                 <div className="mob-menu">
                                     <div className="mob-me-ic">

@@ -9,13 +9,18 @@ import Step4Main from "@/components/pages/signup/main-details/step4-income";
 import Step5Main from "@/components/pages/signup/main-details/step5-aboutyourself";
 import Step6Main from "@/components/pages/signup/main-details/step6-hobbies";
 import Step7Main from "@/components/pages/signup/main-details/step7-familydetails";
-// import StepFinal from "@/components/pages/signup/main-details/step-final";
+import StepFinal from "@/components/pages/signup/main-details/step-final";
+import { useAlert } from "@/context/AlertContext";
+import { redirect, useRouter } from "next/navigation";
+import { fetchResources } from "@/utils/fetchResources";
 
 type FormDataType = {
   [key: string]: any;
 };
 
 export default function Page() {
+  const router = useRouter();
+  const { showAlert } = useAlert();
   const [currentStepMain, setCurrentStepMain] = useState<number>(1);
   const [photoStep, setPhotoStep] = useState<number>(0);
   const [formData, setFormData] = useState<FormDataType>({});
@@ -64,6 +69,23 @@ export default function Page() {
       setPhotoStep(1);
   };
 
+  const handleStepFinal = async (uploadDetails: FormData) => {
+    try {
+      if (!uploadDetails.get("file")) {
+        showAlert({ title: "Upload Required", message: "Please upload a photo before submitting.", variant: "error", dismissible: true });
+        return;
+      }
+      const response: any = await fetchResources("/upload", uploadDetails);
+
+      if (response.statusCode === 200) {
+        showAlert( "Success", "Photo uploaded successfully!","success", true );
+        router.push("/dashboard");
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
     <section>
       <div className="login">
@@ -89,7 +111,7 @@ export default function Page() {
                       <h1>Profiles without photos are mysterious</h1>
                     </div>
 
-                    {/* <StepFinal onSubmit={handleStepFinal} /> */}
+                    <StepFinal onSubmit={handleStepFinal} />
                   </div>
                 </div>
               )}

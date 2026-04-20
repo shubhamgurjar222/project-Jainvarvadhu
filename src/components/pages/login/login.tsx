@@ -3,6 +3,7 @@ import Link from "next/link"
 import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import ErrorMsg from "@/components/error/error-msg";
+import Loading from "@/components/loading/loading";
 
 type Props = {
   onSubmit: (data: Details) => void;
@@ -31,6 +32,7 @@ export default function LoginForm ({ onSubmit }: Props) {
     const [errors, setErrors] = useState<Errors>({});
     const [showPassword, setShowPassword] = useState<boolean>(false);
     const isPasswordVisible = () => { return showPassword; };
+    const [loading, setLoading] = useState(false)
 
     const validate = (): Errors => {
         const newErrors: Errors = {};
@@ -74,6 +76,7 @@ export default function LoginForm ({ onSubmit }: Props) {
         setErrors(newErrors);
         return;
         }
+        setLoading(true)
         onSubmit(details);
     };
 
@@ -121,6 +124,7 @@ export default function LoginForm ({ onSubmit }: Props) {
                             </label>
                         </div>
                         <button type="submit" className="btn btn-primary">Sign in</button>
+                        {loading && <Loading />}
                     </form>
                 </div>
             </div>

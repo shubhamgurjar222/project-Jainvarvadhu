@@ -8,9 +8,8 @@ import Step1 from "@/components/pages/signup/step1-gender";
 import Step2 from "@/components/pages/signup/step2-basic";
 import Step3 from "@/components/pages/signup/step3-religion";
 import Step4 from "@/components/pages/signup/step4-email";
-import Final from "@/components/pages/signup/step-final";
 import { useAlert } from "@/context/AlertContext";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 
 
 export default function SignupClient () {
@@ -66,24 +65,6 @@ export default function SignupClient () {
     }
   };
 
-  const handleStepFinal = async (uploadDetails: FormData) => {
-    try {
-
-      if (!uploadDetails.get("file")) {
-        showAlert({ title: "Upload Required", message: "Please upload a photo before submitting.", variant: "error", dismissible: true });
-        return;
-      }
-      const response: any = await fetchResources("/upload", uploadDetails);
-
-      if (response.statusCode === 200) {
-        showAlert( "Success", "Photo uploaded successfully!","success", true );
-        router.push("/dashboard");
-      }
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
   return (
     <section>
       <div className="login">
@@ -123,7 +104,7 @@ export default function SignupClient () {
 
                   {currentStep === 4 && ( <Step4 key={currentStep} onSubmit={handleStep4Submit} /> )}
 
-                  {currentStep === 5 && ( <Final key={currentStep} onSubmit={handleStepFinal} /> )}
+                  {currentStep === 5 && redirect("/signup/main")}
 
                 </div>
               </div>
