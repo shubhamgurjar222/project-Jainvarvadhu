@@ -3,7 +3,7 @@ import SignupClient from "@/app/(pages)/signup/SignupClient"
 
 export const metadata = {
     title: "Signup - Wedding Matrimony",
-    description: "Login component for the Wedding Matrimony website.",
+    description: "Signup for the Wedding Matrimony website.",
 }
 
 

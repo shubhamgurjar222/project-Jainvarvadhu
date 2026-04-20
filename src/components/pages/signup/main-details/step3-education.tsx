@@ -7,7 +7,7 @@ import { fetchResources } from "@/utils/fetchResources";
 
 type Details = {
   highestqualification: string;
-  collegeName: string;
+  collegeId: number;
 };
 
 type Errors = {
@@ -25,9 +25,10 @@ type Props = {
 };
 
 export default function Step3Main({ onSubmit }: Props) {
+  const [collegeInput, setCollegeInput] = useState("");
   const [details, setDetails] = useState<Details>({
     highestqualification: sessionStorage.getItem("highestqualification") || "",
-    collegeName: sessionStorage.getItem("collegeName") || "",
+    collegeId: 0,
   });
 
   const [errors, setErrors] = useState<Errors>({});
@@ -38,7 +39,7 @@ export default function Step3Main({ onSubmit }: Props) {
     if (!details.highestqualification) {
       newErrors.highestqualification = "Please select a highest qualification.";
     }
-    if (!details.collegeName) {
+    if (!details.collegeId) {
       newErrors.collegeName = "Please enter a college name.";
     }
     return newErrors;
@@ -47,21 +48,22 @@ export default function Step3Main({ onSubmit }: Props) {
   const debounceRef = useRef<NodeJS.Timeout | null>(null);
 
   const handleSearch = async (value: string) => {
-    setDetails((prev) => ({ ...prev, collegeName: value }));
-    sessionStorage.setItem("collegeName", value);
-
-    const formData = new FormData();
-    formData.append("name", value);
+    setCollegeInput(value);
+    setDetails((prev) => ({ ...prev, collegeId: 0 }));
     if (debounceRef.current) clearTimeout(debounceRef.current);
 
     debounceRef.current = setTimeout(async () => {
-      if (value.length < 3) {
-        setResults([]);
-        return;
-      }
+    if (value.length < 3) {
+      setResults([]);
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("name", value);
 
       try {
         const response: any = await fetchResources("/college/searchCollegesByName", formData);
+
         if (response && typeof response === "object" && "data" in response) {
           setResults(response.data || []);
         }
@@ -71,11 +73,11 @@ export default function Step3Main({ onSubmit }: Props) {
     }, 400);
   };
 
-  const handleSelectCollege = (college: string) => {
-    setDetails((prev) => ({ ...prev, collegeName: college }));
-    sessionStorage.setItem("collegeName", college);
-    setResults([]);
+  const handleSelectCollege = (college: College) => {
 
+    setCollegeInput(college.college_name);
+    setDetails((prev) => ({ ...prev, collegeId: college.id }));
+    setResults([]);
     if (errors.collegeName) {
       setErrors((prev) => ({ ...prev, collegeName: "" }));
     }
@@ -115,7 +117,7 @@ export default function Step3Main({ onSubmit }: Props) {
             type="text"
             id="collegeName"
             className="form-control"
-            value={details.collegeName}
+            value={collegeInput}
             placeholder="Search College here you attended"
             onChange={(e: ChangeEvent<HTMLInputElement>) =>
               handleSearch(e.target.value)
@@ -125,7 +127,7 @@ export default function Step3Main({ onSubmit }: Props) {
           {results.length > 0 && (
             <ul className="autocomplete-list college-dropdown">
               {results.map((college) => (
-                <li key={college.id} onClick={() => handleSelectCollege(college.college_name)}>{college.college_name}</li>
+                <li key={college.id} onClick={() => handleSelectCollege(college)}>{college.college_name}</li>
               ))}
             </ul>
           )}

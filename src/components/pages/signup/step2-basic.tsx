@@ -96,14 +96,14 @@ export default function Step2Basic({ onSubmit }: Step2BasicProps) {
       if (id === "year" && Number(value) > new Date().getFullYear()) return;
 
       const updatedDob = { ...dobParts, [id]: value };
-      sessionStorage.setItem(id, value);
       setDobParts(updatedDob);
       const { month, date, year } = updatedDob;
-
+      
       if (month && date && year) {
         sessionStorage.setItem("month", month);
-        sessionStorage.setItem("date", date);
         sessionStorage.setItem("year", year);
+        sessionStorage.setItem("date", date);
+        sessionStorage.setItem("dob", `${year}-${month}-${date}`)
         setDetails(({...details, dob: `${year}-${month}-${date}`}));
       }
 

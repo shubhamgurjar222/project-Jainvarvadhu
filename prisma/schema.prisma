@@ -68,10 +68,10 @@ model user_profiles {
   state          String?                      @db.VarChar(255)
   height_cm      String?                      @db.VarChar(255)
   married_status String?                      @db.VarChar(50)
-  manglik_status user_profiles_manglik_status
-  complexion     user_profiles_complexion
-  blood_group    user_profiles_blood_group
-  birth_place    String                       @db.VarChar(255)
+  manglik_status user_profiles_manglik_status?
+  complexion     user_profiles_complexion?
+  blood_group    user_profiles_blood_group?
+  birth_place    String?                      @db.VarChar(255)
   diet           String?                      @db.VarChar(50)
   drinks         Boolean?                     @default(false)
   smokes         Boolean?                     @default(false)

@@ -15,6 +15,29 @@ type signUp = {
     email: string;
     hashed_password: string;
     phone_no: string;
+    city: string;
+    state: string;
+    living: string;
+    height: string;
+    marriedStatus: string;
+    diet: string;
+    drink: string;
+    smoke: string;
+    highestqualification: string;
+    collegeId: string;
+    income: string;
+    workDetails: string;
+    aboutYourSelf: string;
+    hobbies1: string;
+    hobbies2: string;
+    hobbies3: string;
+    hobbies4: string;
+    hobbies5: string;
+    fatherDetails: string;
+    motherDetails: string;
+    sisters: string;
+    brothers: string;
+    familyFinancialStatus: string;
 }
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -62,6 +85,29 @@ export async function POST(request: Request): Promise<Response> {
       email: formData.get("email") as string,
       hashed_password: hashedPassword ,
       phone_no: formData.get("phoneNo") as string,
+      city: formData.get("city") as string,
+      state: formData.get("state") as string,
+      living: formData.get("living") as string,
+      height: formData.get("height") as string,
+      marriedStatus: formData.get("marriedStatus") as string,
+      diet: formData.get("diet") as string,
+      drink: formData.get("drink") as string,
+      smoke: formData.get("smoke") as string,
+      highestqualification: formData.get("highestqualification") as string,
+      collegeId: formData.get("collegeId") as string,
+      income: formData.get("income") as string,
+      workDetails: formData.get("workDetails") as string,
+      aboutYourSelf: formData.get("aboutYourSelf") as string,
+      hobbies1: formData.get("hobbies1") as string,
+      hobbies2: formData.get("hobbies2") as string,
+      hobbies3: formData.get("hobbies3") as string,
+      hobbies4: formData.get("hobbies4") as string,
+      hobbies5: formData.get("hobbies5") as string,
+      fatherDetails: formData.get("fatherDetails") as string,
+      motherDetails: formData.get("motherDetails") as string,
+      sisters: formData.get("sisters") as string,
+      brothers: formData.get("brothers") as string,
+      familyFinancialStatus: formData.get("familyFinancialStatus") as string
     };
 
     for (const [field, value] of Object.entries(userData)) {

@@ -53,8 +53,5 @@ export function proxy(request: NextRequest): NextResponse  {
 }
  
 export const config = {
-  matcher: [
-    '/dashboard/:path*',
-    '/signup/main/:path*',
-  ],
+  matcher: ['/dashboard/:path*'],
 }

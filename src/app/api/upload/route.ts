@@ -1,7 +1,7 @@
 import cloudinary from '@/utils/cloudinary';
 import { UploadApiResponse } from 'cloudinary';
 import { successResponse, errorResponse } from '@/utils/apiResponse';
-import getUserFromToken from "@/lib/getUserByAccessToken";
+import getUserByAccessToken from "@/lib/getUserByAccessToken";
 import { uploadPhoto } from "@/lib/queries/users/uploadPhoto";
 
 
@@ -11,7 +11,7 @@ export async function POST(req: Request) {
         const formData = await req.formData();
         const file = formData.get('file') as File;
         const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
-        const user = await getUserFromToken()
+        const user = await getUserByAccessToken()
 
         if (!file || !(file instanceof File)) {
             return errorResponse(400, 'File upload failed');

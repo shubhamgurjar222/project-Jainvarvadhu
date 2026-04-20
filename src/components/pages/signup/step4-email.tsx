@@ -5,6 +5,7 @@ import ErrorMsg from "@/components/error/error-msg";
 import { Eye, EyeOff } from "lucide-react";
 import { fetchResources } from "@/utils/fetchResources";
 
+
 type Details = {
   email: string;
   password: string;
@@ -50,6 +51,7 @@ export default function Step4Email({ onSubmit }: Props) {
 
     if (id === "email") {
       const trimmedvalue = value.trim();
+      
       clearTimeout(emailTimer);
       emailTimer = setTimeout(async () => {
         const formData = new FormData();
@@ -59,15 +61,17 @@ export default function Step4Email({ onSubmit }: Props) {
           if (isEmailRegistered?.data) {
             setErrors((prev) => ({ ...prev, email: "Email already registered"}));
             return
+          } else {
+            if (errors.email) setErrors((prev) => ({ ...prev, email: "" }));
           }
         } catch (error) {
           console.error(error);
         }
-      }, 5000);
+      }, 1000);
 
       sessionStorage.setItem("email", trimmedvalue);
       setDetails({ ...details, email: sessionStorage.getItem("email") || "" });
-      if (errors.email) setErrors((prev) => ({ ...prev, email: "" }));
+      
     } 
 
     if (id === "password") {
@@ -88,6 +92,10 @@ export default function Step4Email({ onSubmit }: Props) {
   const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
     const newErrors = validate();
+
+    if (errors.email) {
+      newErrors.email = errors.email;
+    }
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);

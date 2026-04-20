@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, ChangeEvent, SyntheticEvent, useEffect } from "react";
+import { useState, ChangeEvent, SyntheticEvent } from "react";
 import { City } from "country-state-city";
 import Getcountry from "@/utils/getCountry";
 import ErrorMsg from "@/components/error/error-msg";
@@ -35,22 +35,23 @@ export default function Step1Main({ onSubmit }: Props) {
   });
 
   const countryStates = Getcountry(details.country);
-
   const states: string[] = countryStates.map((s: any) => s.name);
-
-  useEffect(() => {
-    if (states.length === 0) {
-      showAlert("States not found", "Error fetching states for the selected country.", "info", true);
-      redirect("/signup");
-    }
-  }, [states.length]);
-
+  
+  if (states.length === 0) {
+    showAlert("States not found", "Error fetching states for the selected country.", "info", true);
+    redirect("/signup");
+  }
+  
   const selectedState = countryStates.find((s: any) => s.name === details.state);
 
-  const cities = selectedState? City.getCitiesOfState(
+  const cities = selectedState && City.getCitiesOfState(
     selectedState.countryCode,
     selectedState.isoCode
-  ): [];
+  ) ?
+     City.getCitiesOfState(
+      selectedState.countryCode,
+      selectedState.isoCode
+    ): [];
 
   const [errors, setErrors] = useState<Errors>({});
 

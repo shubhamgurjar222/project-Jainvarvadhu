@@ -1,11 +1,11 @@
 import { cookies } from "next/headers";
 import { errorResponse, successResponse } from "@/utils/apiResponse";
-import getUserFromToken from "@/lib/getUserByAccessToken"
+import getUserByAccessToken from "@/lib/getUserByAccessToken"
 
 
 export async function GET(): Promise<Response> {
 
-  const token = await getUserFromToken()
+  const token = await getUserByAccessToken()
 
   console.log(token)
 
