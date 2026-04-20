@@ -30,7 +30,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
 
         {!hideLayout && <Footer />}
 
-        {/* <Script src="/js/jquery.min.js" strategy="afterInteractive" /> */}
+        <Script src="/js/jquery.min.js" strategy="afterInteractive" />
         <Script src='/js/slick.js' strategy='afterInteractive' />
         <Script src="/js/custom.js" strategy="afterInteractive" />
         {/* <Script id="jquery-global" strategy="beforeInteractive">{`window.$ = window.jQuery = window.jQuery || window.$;`}</Script> */}
