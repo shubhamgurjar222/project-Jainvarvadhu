@@ -11,7 +11,7 @@ import Step6Main from "@/components/pages/signup/main-details/step6-hobbies";
 import Step7Main from "@/components/pages/signup/main-details/step7-familydetails";
 import StepFinal from "@/components/pages/signup/main-details/step-final";
 import { useAlert } from "@/context/AlertContext";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { fetchResources } from "@/utils/fetchResources";
 
 type JwtPayload = {
@@ -53,7 +53,7 @@ export default function SignupMainClient () {
 
     if (emptyField) {
         showAlert("Error", "Essentials User data is Missing", "error", true)
-        redirect("/signup")
+        router.push("/signup")
     }
 
     Object.entries(fields).forEach(([key, value]) => {
@@ -118,7 +118,7 @@ export default function SignupMainClient () {
         for (let [key, value] of allformData.entries()) {
             if (value === "" || value === null || value === undefined) {
                 showAlert("Error", "User data is Missing", "error", true)
-                redirect("/signup")
+                router.push("/signup")
             }
         }
 
@@ -127,16 +127,17 @@ export default function SignupMainClient () {
 
             if (response.statusCode === 500) {
                 showAlert("Error", response.message, "error", true)
-                return
+                router.push("/signup")
             }
 
             if (response.statusCode === 400) {
                 showAlert("Error", response.message, "error", true)
-                return
+                router.push("/signup")
             }
 
             if (response.statusCode === 200) {
                 showAlert("Success", response.message, "success", true)
+                sessionStorage.clear();
                 setPhotoStep(1);
             }
 
@@ -149,16 +150,16 @@ export default function SignupMainClient () {
 
     const handleStepFinal = async (uploadDetails: FormData) => {
         try {
-        if (!uploadDetails.get("file")) {
-            showAlert({ title: "Upload Required", message: "Please upload a photo before submitting.", variant: "error", dismissible: true });
-            return;
-        }
-        const response: any = await fetchResources("/upload", uploadDetails);
+            if (!uploadDetails.get("file")) {
+                showAlert({ title: "Upload Required", message: "Please upload a photo before submitting.", variant: "error", dismissible: true });
+                return;
+            }
+            const response: any = await fetchResources("/upload", uploadDetails);
 
-        if (response.statusCode === 200) {
-            showAlert( "Success", "Photo uploaded successfully!","success", true );
-            router.push("/dashboard");
-        }
+            if (response.statusCode === 200) {
+                showAlert( "Success", "Photo uploaded successfully!","success", true );
+                router.push("/dashboard");
+            }
         } catch (err) {
             console.error(err);
         }

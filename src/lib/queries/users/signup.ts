@@ -57,7 +57,7 @@ export async function signup (data: SignupInput) {
             });
     
             if (existingEmail) {
-                return { success: false, message: "Email ld already registred" };
+                return { success: false, message: "Email id already registred" };
             }
     
             const existingPhoneNo = await tx.users.findUnique({
@@ -67,7 +67,7 @@ export async function signup (data: SignupInput) {
             })
     
             if (existingPhoneNo) {
-                return { success: false, message: "Phone Number already registred" };
+                return { success: false, message: "Phone number already registred" };
             }
 
             const user = await tx.users.create({

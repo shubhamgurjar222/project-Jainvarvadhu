@@ -124,23 +124,25 @@ export async function POST(request: Request): Promise<Response> {
       return errorResponse(400, passwordValidation.reason || "Password does not meet requirements")
     }
 
-    const data: any = await signup(userData);
+    const userDetails: any = await signup(userData);
 
-    if (data?.success == false) {
-      if (data.message == "Email already registered") {
-        return errorResponse(400, data.message)
+    if (userDetails?.success == false) {
+      if (userDetails?.message == "Email id already registred") {
+        return errorResponse(400, userDetails.message)
       }
 
-      if (data?.message == "Phone Number already registred") {
-        return errorResponse(400, data.message)
+      if (userDetails?.message == "Phone number already registred") {
+        return errorResponse(400, userDetails.message)
       }
     }
 
+    const data = userDetails.data;
+
     const payload = {
-      id: data.data.id,
-      email: data.data.email,
-      firstName: data.data.firstName,
-      lastName: data.data.lastName,
+      id: data.id,
+      email: data.email,
+      firstName: data.firstName,
+      lastName: data.lastName,
     };
 
     const accessToken = generateAccessToken(payload);
@@ -166,7 +168,7 @@ export async function POST(request: Request): Promise<Response> {
     
     const response = { user: { ...data, dob: data.dob } }
     
-    const isTokenSaved = await saveRefreshTokenInDB(data.data.id, refreshToken)
+    const isTokenSaved = await saveRefreshTokenInDB(data.id, refreshToken)
 
     if (!isTokenSaved) {
       return errorResponse(400, "Token Not Saved");

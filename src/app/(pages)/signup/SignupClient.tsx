@@ -3,17 +3,14 @@
 import { useState } from "react";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
-import { fetchResources } from "@/utils/fetchResources";
 import Step1 from "@/components/pages/signup/step1-gender";
 import Step2 from "@/components/pages/signup/step2-basic";
 import Step3 from "@/components/pages/signup/step3-religion";
 import Step4 from "@/components/pages/signup/step4-email";
-import { useAlert } from "@/context/AlertContext";
 import { redirect } from "next/navigation";
 
 
 export default function SignupClient () {
-  const { showAlert } = useAlert();
   const [currentStep, setCurrentStep] = useState<number>(1);
   const [formData, setFormData] = useState<Record<string, string>>({});
   
@@ -35,34 +32,6 @@ export default function SignupClient () {
   const handleStep4Submit = async (details: { email: string; password: string; phoneNo: string; }) => {
     const updatedFormData = { ...formData, email: details.email, password: details.password, phoneNo: details.phoneNo };
     setCurrentStep(5);
-    // const updated = new FormData();
-    // Object.entries(updatedFormData).forEach(([key, value]) => {
-    //   updated.append(key, value);
-    // });
-
-    // try {
-
-    //   const response: any = await fetchResources("/auth/signup", updated)
-      
-    //   if (response.statusCode === 500) {
-    //     showAlert("Error", response.message, "error", true)
-    //     return
-    //   }
-
-    //   if (response.statusCode === 400) {
-    //     showAlert("Error", response.message, "error", true)
-    //     return
-    //   }
-
-    //   if (response.statusCode === 200) {
-    //     // showAlert("Success", response.message, "success", true)
-    //     
-    //   }
-
-    // } catch (error) {
-    //   showAlert("Error", "Error while registering User ", "error", true);
-    //   return
-    // }
   };
 
   return (
