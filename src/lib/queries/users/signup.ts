@@ -12,7 +12,7 @@ type SignupInput = {
     phone_no: string;
     city: string;
     state: string;
-    living: string;
+    living: "yes" | "no";
     height: string;
     marriedStatus: string;
     diet: string;
@@ -32,7 +32,7 @@ type SignupInput = {
     motherDetails: string;
     sisters: string;
     brothers: string;
-    familyFinancialStatus: string;
+    familyFinancialStatus: "elite" | "high" | "middle" | "aspiring";
 }
 
 export async function signup (data: SignupInput) {
@@ -117,7 +117,8 @@ export async function signup (data: SignupInput) {
                     mother_occupation: data.motherDetails.trim(),
                     sister_count: Number(data.sisters),
                     brother_count: Number(data.brothers),
-                    financial_status: data.familyFinancialStatus as any,
+                    financial_status: data.familyFinancialStatus,
+                    living_with_family: data.living
                 },
             });
 
@@ -137,7 +138,14 @@ export async function signup (data: SignupInput) {
                 },
             });
 
-            return { success: true, userId };
+            return { success: true, message: "User Registred Successfully", 
+                data : {
+                    id: userId,
+                    email: user.email,
+                    firstName: user.first_name,
+                    lastName: user.last_name
+                }
+            };
         })
     
     } catch (error) {

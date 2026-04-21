@@ -17,7 +17,7 @@ type signUp = {
     phone_no: string;
     city: string;
     state: string;
-    living: string;
+    living: "yes" | "no";
     height: string;
     marriedStatus: string;
     diet: string;
@@ -37,7 +37,7 @@ type signUp = {
     motherDetails: string;
     sisters: string;
     brothers: string;
-    familyFinancialStatus: string;
+    familyFinancialStatus: "elite" | "high" | "middle" | "aspiring" ;
 }
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -70,7 +70,6 @@ export async function GET(): Promise<Response> {
 export async function POST(request: Request): Promise<Response> {
   try {     
     const formData: FormData = await request.formData();
-
     const dobInput = formData.get("dob") as string;
     const dob = new Date(dobInput);
     const hashedPassword = await hashPassword(formData.get("password") as string)
@@ -87,7 +86,7 @@ export async function POST(request: Request): Promise<Response> {
       phone_no: formData.get("phoneNo") as string,
       city: formData.get("city") as string,
       state: formData.get("state") as string,
-      living: formData.get("living") as string,
+      living: formData.get("living") as "yes" | "no",
       height: formData.get("height") as string,
       marriedStatus: formData.get("marriedStatus") as string,
       diet: formData.get("diet") as string,
@@ -107,7 +106,7 @@ export async function POST(request: Request): Promise<Response> {
       motherDetails: formData.get("motherDetails") as string,
       sisters: formData.get("sisters") as string,
       brothers: formData.get("brothers") as string,
-      familyFinancialStatus: formData.get("familyFinancialStatus") as string
+      familyFinancialStatus: formData.get("familyFinancialStatus") as "elite" | "high" | "middle" | "aspiring"
     };
 
     for (const [field, value] of Object.entries(userData)) {
@@ -138,10 +137,10 @@ export async function POST(request: Request): Promise<Response> {
     }
 
     const payload = {
-      id: data.id,
-      email: data.email,
-      firstName: data.first_name,
-      lastName: data.last_name,
+      id: data.data.id,
+      email: data.data.email,
+      firstName: data.data.firstName,
+      lastName: data.data.lastName,
     };
 
     const accessToken = generateAccessToken(payload);
@@ -167,7 +166,7 @@ export async function POST(request: Request): Promise<Response> {
     
     const response = { user: { ...data, dob: data.dob } }
     
-    const isTokenSaved = await saveRefreshTokenInDB(data.id, refreshToken)
+    const isTokenSaved = await saveRefreshTokenInDB(data.data.id, refreshToken)
 
     if (!isTokenSaved) {
       return errorResponse(400, "Token Not Saved");

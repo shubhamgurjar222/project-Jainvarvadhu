@@ -131,8 +131,8 @@ export default function Step1Main({ onSubmit }: Props) {
               type="radio"
               name="family"
               id="familyYes"
-              value="familyYes"
-              checked={details.living === "familyYes"}
+              value="yes"
+              checked={details.living === "yes"}
               onChange={handleChange}
             />
             <label className="profile-label" htmlFor="familyYes">I happily live with my family</label>
@@ -144,8 +144,8 @@ export default function Step1Main({ onSubmit }: Props) {
               type="radio"
               name="family"
               id="familyNo"
-              value="familyNo"
-              checked={details.living === "familyNo"}
+              value="no"
+              checked={details.living === "no"}
               onChange={handleChange}
             />
             <label className="profile-label" htmlFor="familyNo">I currently live independently</label>
