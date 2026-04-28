@@ -355,12 +355,6 @@ export default function Home() {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="col-md-12 db-sec-com">
-                                    <h2 className="db-tit">Profiles views</h2>
-                                    <div className="chartin"><div className="chartjs-size-monitor"><div className="chartjs-size-monitor-expand"><div className=""></div></div><div className="chartjs-size-monitor-shrink"><div className=""></div></div></div>
-                                        <canvas id="Chart_leads" width="1132" height="566" style={{display: "block", height: "453px", width: "906px"}} className="chartjs-render-monitor"></canvas>
-                                    </div>
-                                </div>
                             </div>
                         </div>
     )

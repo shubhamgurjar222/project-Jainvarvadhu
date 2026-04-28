@@ -9,7 +9,7 @@ type JwtPayload = {
   id: number;
   email: string;
   firstName: string;
-  lastName: string
+  lastName: string;
 };
 
 const generateToken = ( payload: JwtPayload, secret: string, expiresIn: SignOptions["expiresIn"]) => {
@@ -29,7 +29,7 @@ export const generateAccessToken = (payload: JwtPayload) => {
 };
 
 export const generateRefreshToken = (payload: JwtPayload, rememberMe?: boolean) => {
-  const expiry = rememberMe ? "30d" : "1d";
+  const expiry = rememberMe ? "30d" : "7d";
   return generateToken(payload, REFRESH_SECRET, expiry);
 };
 

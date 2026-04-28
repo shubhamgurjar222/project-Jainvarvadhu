@@ -1,7 +1,8 @@
 import Link from "next/link"
 import AdvisorCard from "@/components/dashboard/AdvisorCard"
 
-export default function Header() { 
+export default function Header( userData: any ) { 
+    console.log(userData)
 
     return (
         <>
@@ -13,7 +14,7 @@ export default function Header() {
                     <span className="ser-clo"> + </span>
                     <div className="inn">
                         <form>
-                            <input placeholder="Search here..." type="text" />
+                            <input placeholder="Search here..." type="text" />  
                         </form>
                         <div className="rel-sear">
                             <h4>Top searches:</h4>
@@ -43,13 +44,13 @@ export default function Header() {
                                 <div className="bl">
                                 </div>
 
-                                <AdvisorCard />
+                                <AdvisorCard advisorcard={userData}/>
 
                                 <div className="mob-menu">
                                     <div className="mob-me-ic">
                                         <ul>
                                             <li>
-                                                <Link href="/login"> Login </Link>
+                                                <AdvisorCard advisorcard={userData}/>
                                             </li>
                                         </ul>
                                     </div>

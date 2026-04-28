@@ -73,8 +73,8 @@ export default function LoginForm ({ onSubmit }: Props) {
         const newErrors = validate();
 
         if (Object.keys(newErrors).length > 0) {
-        setErrors(newErrors);
-        return;
+            setErrors(newErrors);
+            return;
         }
         setLoading(true)
         onSubmit(details);
@@ -118,10 +118,18 @@ export default function LoginForm ({ onSubmit }: Props) {
                             <ErrorMsg field="password" errors={errors} />
                         </div>
                         <div className="form-group form-check">
-                            <label className="form-check-label">
-                                <input className="form-check-input" type="checkbox" id="rememberMe" checked={details.rememberMe} onChange={handleChange}></input> Remember
-                                me
-                            </label>
+                            <div className="d-flex justify-content-between">
+                                <label className="form-check-label">
+                                    <input className="form-check-input"
+                                     type="checkbox"
+                                     id="rememberMe"
+                                     checked={details.rememberMe}
+                                     onChange={handleChange}
+                                    /> Remember me
+                                </label>
+                                
+                                <Link href="/forget-password">Forget Password</Link>
+                            </div>
                         </div>
                         <button type="submit" className="btn btn-primary">Sign in</button>
                         {loading && <Loading />}

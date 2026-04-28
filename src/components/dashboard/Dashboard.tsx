@@ -12,7 +12,9 @@ import Interest from '@/components/dashboard/interest/interest'
 import Chat from '@/components/dashboard/chat/chat';
 import Header from '@/components/dashboard/Header';
 
-export default function Dashboard () {
+export default function Dashboard ( userData: any) {
+
+    console.log(userData)
 
     enum Page {
         Home = "Home",
@@ -35,13 +37,10 @@ export default function Dashboard () {
 
   };
 
-
-
     return (
 
         <>
-            <Header />
-
+            <Header header={userData} />
             <section>
                 <div className="db">
                     <div className="container">

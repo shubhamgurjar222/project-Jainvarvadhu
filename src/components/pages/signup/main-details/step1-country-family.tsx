@@ -2,7 +2,7 @@
 
 import { useState, ChangeEvent, SyntheticEvent } from "react";
 import { City } from "country-state-city";
-import Getcountry from "@/utils/getCountry";
+import Getcountry from "@/utils/getStatesByCountryName";
 import ErrorMsg from "@/components/error/error-msg";
 import { redirect } from "next/navigation";
 import { useAlert } from "@/context/AlertContext";

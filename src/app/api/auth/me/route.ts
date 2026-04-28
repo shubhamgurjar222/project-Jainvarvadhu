@@ -1,4 +1,3 @@
-import { cookies } from "next/headers";
 import { errorResponse, successResponse } from "@/utils/apiResponse";
 import getUserByAccessToken from "@/lib/getUserByAccessToken"
 

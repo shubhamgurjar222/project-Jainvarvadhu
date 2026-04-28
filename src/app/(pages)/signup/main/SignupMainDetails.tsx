@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { ArrowLeft } from "lucide-react";
 import Step1Main from "@/components/pages/signup/main-details/step1-country-family";
 import Step2Main from "@/components/pages/signup/main-details/step2-married-habbits";
@@ -46,19 +46,24 @@ export default function SignupMainClient () {
         gender: sessionStorage.getItem("gender") || "",
         phoneNo: sessionStorage.getItem("phoneNo") || "",
     }
-
+    
     const emptyField = Object.entries(fields).find(
         ([_, value]) => !value || value.trim() === ""
     );
 
-    if (emptyField) {
-        showAlert("Error", "Essentials User data is Missing", "error", true)
-        router.push("/signup")
-    }
 
-    Object.entries(fields).forEach(([key, value]) => {
-        allformData.append(key, value);
-    });
+    useEffect(() => {
+        if (emptyField) {
+            router.push("/signup");
+            showAlert("Error", "Essentials User data is Missing", "error", true);
+        }
+    }, [emptyField]);
+
+    useEffect(() => {
+        Object.entries(fields).forEach(([key, value]) => {
+            allformData.append(key, value);
+        });
+    }, []);
 
 
     const handleStep1Main = (details: any) => {
@@ -114,11 +119,15 @@ export default function SignupMainClient () {
         allformData.append("brothers", brothers)
         allformData.append("familyFinancialStatus", familyFinancialStatus)
 
+            console.log("test here")
+
 
         for (let [key, value] of allformData.entries()) {
             if (value === "" || value === null || value === undefined) {
                 showAlert("Error", "User data is Missing", "error", true)
+                console.log("Error on line no. 126")
                 router.push("/signup")
+                return
             }
         }
 
@@ -137,7 +146,6 @@ export default function SignupMainClient () {
 
             if (response.statusCode === 200) {
                 showAlert("Success", response.message, "success", true)
-                sessionStorage.clear();
                 setPhotoStep(1);
             }
 

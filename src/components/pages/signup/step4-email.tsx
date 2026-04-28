@@ -23,6 +23,7 @@ type Props = {
 };
 
 let emailTimer: any;
+let phoneNoTimer: any;
 
 export default function Step4Email({ onSubmit }: Props) {
   const [details, setDetails] = useState<Details>({
@@ -67,25 +68,47 @@ export default function Step4Email({ onSubmit }: Props) {
         } catch (error) {
           console.error(error);
         }
-      }, 1000);
+      }, 4000);
 
       sessionStorage.setItem("email", trimmedvalue);
       setDetails({ ...details, email: sessionStorage.getItem("email") || "" });
-      
     } 
 
     if (id === "password") {
       sessionStorage.setItem("password", value);
       setDetails({ ...details, password: sessionStorage.getItem("password") || "" });
       if (errors.password) setErrors((prev) => ({ ...prev, password: "" }));
-
     }
     
     if (id === "phoneNo") {
       const trimmedvalue = value.trim();
+      const isNumeric = /^[0-9]*$/.test(trimmedvalue);
+
+      if (isNumeric === false) {
+        setErrors((prev) => ({ ...prev, phoneNo: "Text Not Allowed" }));
+      } else {
+        setErrors((prev) => ({ ...prev, phoneNo: "" }));
+      }
+
+      clearTimeout(phoneNoTimer);
+      phoneNoTimer = setTimeout(async () => {
+        const formData = new FormData();
+        formData.append("phoneNo", trimmedvalue);
+        try {
+          const isPhoneNoRegistered: any = await fetchResources("/auth/checkUserByPhoneNo", formData);
+          if (isPhoneNoRegistered?.data) {
+            setErrors((prev) => ({ ...prev, phoneNo: "Phone Number already registered"}));
+            return
+          } else {
+            if (errors.phoneNo) setErrors((prev) => ({ ...prev, phoneNo: "" }));
+          }
+        } catch (error) {
+          console.error(error);
+        }
+      }, 4000);
+
       sessionStorage.setItem("phoneNo", trimmedvalue);
       setDetails({ ...details, phoneNo: sessionStorage.getItem("phoneNo") || "" });
-      if (errors.phoneNo) setErrors((prev) => ({ ...prev, phoneNo: "" }));
     }
   };
 

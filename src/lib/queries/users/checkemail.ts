@@ -25,6 +25,7 @@ export async function checkUserByEmail ( email: string ): Promise<UserResult | n
                 created_at: true
             },
         });
+
         return user;
     } catch (error) {
         console.error("Error checking user by email:", error);

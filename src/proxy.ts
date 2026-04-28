@@ -45,6 +45,7 @@ export function proxy(request: NextRequest): NextResponse  {
       return response
     } catch (error) {
       console.error('Refresh token also expired:', error)
+      
       return NextResponse.redirect(new URL("/login", request.url))
     }
   }

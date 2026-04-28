@@ -1,5 +1,6 @@
 
 import SignupClient from "@/app/(pages)/signup/SignupClient"
+import { getCountries, getStatesOfCountry, getCitiesOfState } from '@countrystatecity/countries';
 
 export const metadata = {
     title: "Signup - Wedding Matrimony",
@@ -7,6 +8,7 @@ export const metadata = {
 }
 
 
-export default function Signup() {
+export default  function Signup() {
+  
   return <SignupClient />
 }
